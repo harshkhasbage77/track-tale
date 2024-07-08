@@ -1,4 +1,5 @@
 import React, { MouseEventHandler, useEffect, useRef } from "react";
+import { consumers } from "stream";
 
 function DragableView(props: {
   children?: React.ReactNode;
@@ -8,6 +9,7 @@ function DragableView(props: {
   value: number;
   total: number;
   onChange: (value: number) => void;
+  // onExceedMaxTime?: (value: number) => void;  
 }) {
   const ref = useRef<{
     div: HTMLDivElement | null;
@@ -24,7 +26,9 @@ function DragableView(props: {
     const deltaX = mouseX - data.initialMouseX;
     const deltaValue =
       (deltaX / data.div.parentElement!.clientWidth) * props.total;
-    return props.value + deltaValue;
+    let newValue = props.value + deltaValue;
+    if (newValue < 0) newValue = 0; 
+    return newValue;
   }
 
   const handleMouseDown: MouseEventHandler<HTMLDivElement> = (event) => {
@@ -48,6 +52,16 @@ function DragableView(props: {
     if (!data.isDragging) return;
     data.isDragging = false;
     props.onChange(calculateNewValue(event.clientX));
+    
+    // const newValue = calculateNewValue(event.clientX);
+    // if (newValue > props.total) {
+    //   props.onExceedMaxTime?.(newValue);
+    // } else {
+    //   props.onChange(newValue);
+    // }
+
+    // console.log("handleMouseUp k baad ka maxTime: ", props.total);
+
     event.stopPropagation();
     event.preventDefault();
   };

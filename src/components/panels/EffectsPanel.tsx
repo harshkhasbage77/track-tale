@@ -13,6 +13,12 @@ export const EffectsPanel = observer(() => {
       <div className="text-sm px-[16px] pt-[16px] pb-[8px] font-semibold">
         Effects
       </div>
+      {!selectedElement && (
+        <div className="text-slate-800 px-[16px] pb-[16px]">
+          Select an element to apply effects
+        </div>
+      )}
+      
       {selectedElement &&
       (isEditorImageElement(selectedElement) ||
         isEditorVideoElement(selectedElement)) ? (

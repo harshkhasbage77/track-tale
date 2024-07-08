@@ -34,6 +34,11 @@ export const AnimationsPanel = observer(() => {
       <div className="text-sm px-[16px] pt-[16px] pb-[8px] font-semibold">
         Animations
       </div>
+      {!selectedElement && (
+        <div className="text-slate-800 px-[16px] pb-[16px]">
+          Select an element to apply animations
+        </div>
+      )}
       {selectedElement && !hasFadeInAnimation ? (
         <div
           className="text-sm px-[16px] py-[8px] font-semibold hover:bg-slate-700 hover:text-white cursor-pointer"

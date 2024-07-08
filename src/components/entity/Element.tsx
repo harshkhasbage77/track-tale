@@ -36,6 +36,7 @@ export const Element = observer((props: ElementProps) => {
             className="opacity-0 max-w-[20px] max-h-[20px]"
             src={element.properties.src}
             onLoad={() => {
+              console.log("loaded dekh le bhai");
               store.refreshElements();
             }}
             onLoadedData={() => {

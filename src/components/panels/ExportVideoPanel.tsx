@@ -43,6 +43,7 @@ export const ExportVideoPanel = observer(() => {
             checked={store.selectedVideoFormat === "mp4"}
             onChange={(e) => {
               store.setVideoFormat("mp4");
+              console.log(store.selectedVideoFormat + " selected");
             }}
           />
           <div className="text-xs mr-2">MP4</div>
@@ -54,6 +55,8 @@ export const ExportVideoPanel = observer(() => {
             checked={store.selectedVideoFormat === "webm"}
             onChange={(e) => {
               store.setVideoFormat("webm");
+              console.log(store.selectedVideoFormat + " selected");
+
             }}
           />
           <div className="text-xs mr-2">webm</div>

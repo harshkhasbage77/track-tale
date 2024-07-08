@@ -27,3 +27,43 @@ body {
       transparent,
       rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
+
+/* .custom-scrollbar {
+  overflow-y: scroll;
+  scrollbar-width: thin; or auto for system default
+  scrollbar-color: #262a42 #fff; thumb color and track color
+  border-radius: 4px;
+}
+
+For WebKit browsers like Chrome and Safari
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #333;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #fff;
+  border-radius: 6px;
+} */
+
+.scroll-1-container {
+  overflow-y: scroll;
+  /* scroll-snap-type: x mandatory; */
+  scroll-padding-top: 24px;
+  scrollbar-width: 5px;
+  scrollbar-track-color: #a82424;
+}
+
+.scroll-1::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scroll-1::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: #a82424;
+}

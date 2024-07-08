@@ -36,8 +36,8 @@ export class Store {
     this.images = [];
     this.audios = [];
     this.editorElements = [];
-    this.backgroundColor = '#111111';
-    this.maxTime = 30 * 1000;
+    this.backgroundColor = '#0037ff';
+    this.maxTime = 60 * 1000;
     this.playing = false;
     this.currentKeyFrame = 0;
     this.selectedElement = null;
@@ -47,6 +47,18 @@ export class Store {
     this.selectedMenuOption = 'Video';
     this.selectedVideoFormat = 'mp4';
     makeAutoObservable(this);
+  }
+
+  get canvasHeight() {
+    return 450;
+  }
+
+  get canvasWidth() {
+    return 800;
+  }
+
+  get canvasAspectRatio() {
+    return this.canvasWidth / this.canvasHeight;
   }
 
   get currentTimeInMs() {
@@ -90,6 +102,9 @@ export class Store {
 
   addVideoResource(video: string) {
     this.videos = [...this.videos, video];
+  }
+  deleteVideoResource(video: string) {
+    this.videos = this.videos.filter((v) => v !== video);
   }
   addAudioResource(audio: string) {
     this.audios = [...this.audios, audio];
@@ -285,15 +300,30 @@ export class Store {
 
   setSelectedElement(selectedElement: EditorElement | null) {
     this.selectedElement = selectedElement;
+    console.warn(this.canvas)
+    console.warn(selectedElement?.fabricObject)
     if (this.canvas) {
       if (selectedElement?.fabricObject)
-        this.canvas.setActiveObject(selectedElement.fabricObject);
+        {
+          this.canvas.setActiveObject(selectedElement.fabricObject);
+          console.warn("this element is set active " + selectedElement.fabricObject)
+        }
       else
         this.canvas.discardActiveObject();
     }
   }
   updateSelectedElement() {
+    console.error("now updating selected element")
     this.selectedElement = this.editorElements.find((element) => element.id === this.selectedElement?.id) ?? null;
+  }
+
+  canvasContainerClicked(event: React.MouseEvent<HTMLDivElement>) {
+    console.warn("canvas container clicked and store function execurted");
+    if(event?.target instanceof HTMLCanvasElement){
+      console.warn("in m inside");
+      return;
+    }
+    this.setSelectedElement(null);
   }
 
   setEditorElements(editorElements: EditorElement[]) {
@@ -418,8 +448,8 @@ export class Store {
         name: `Media(video) ${index + 1}`,
         type: "video",
         placement: {
-          x: 0,
-          y: 0,
+          x: 400 - 50 * aspectRatio,
+          y: 175,
           width: 100 * aspectRatio,
           height: 100,
           rotation: 0,
@@ -598,7 +628,7 @@ export class Store {
   //     const blob = new Blob(chunks, { type: "video/webm" });
   //     const url = URL.createObjectURL(blob);
   //     const a = document.createElement("a");
-  //     a.href = url;
+  //     a.href = url;sir khud chn
   //     a.download = "video.webm";
   //     a.click();
   //   };
@@ -620,10 +650,15 @@ export class Store {
   saveCanvasToVideoWithAudioWebmMp4() {
     console.log('modified')
     let mp4 = this.selectedVideoFormat === 'mp4'
+
+    // Captures a stream from the canvas element at 30 frames per second.
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
     const stream = canvas.captureStream(30);
+    
+    
     const audioElements = this.editorElements.filter(isEditorAudioElement)
     const audioStreams: MediaStream[] = [];
+    
     audioElements.forEach((audio) => {
       const audioElement = document.getElementById(audio.properties.elementId) as HTMLAudioElement;
       let ctx = new AudioContext();
@@ -633,13 +668,17 @@ export class Store {
       sourceNode.connect(ctx.destination);
       audioStreams.push(dest.stream);
     });
+    
     audioStreams.forEach((audioStream) => {
       stream.addTrack(audioStream.getAudioTracks()[0]);
     });
+    
+    
     const video = document.createElement("video");
     video.srcObject = stream;
-    video.height = 500;
-    video.width = 800;
+    video.height = this.canvasHeight;
+    console.log("final video height (canvas height) - ", video.height);
+    video.width = video.height * this.canvasAspectRatio;
     // video.controls = true;
     // document.body.appendChild(video);
     video.play().then(() => {
@@ -656,8 +695,11 @@ export class Store {
         if (mp4) {
           // lets use ffmpeg to convert webm to mp4
           const data = new Uint8Array(await (blob).arrayBuffer());
+          console.log("data ", data);
           const ffmpeg = new FFmpeg();
-          const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.2/dist/umd"
+          // const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.2/dist/umd"
+          const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd"
+          console.log("baseURL ", baseURL);
           await ffmpeg.load({
             coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
             wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
@@ -671,15 +713,15 @@ export class Store {
           const outputBlob = new Blob([output], { type: "video/mp4" });
           const outputUrl = URL.createObjectURL(outputBlob);
           const a = document.createElement("a");
-          a.download = "video.mp4";
           a.href = outputUrl;
+          a.download = "video.mp4";
           a.click();
 
         } else {
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          a.download = "video.webm";
+          a.download = "Track_Tale.webm";
           a.click();
         }
       };
@@ -851,6 +893,8 @@ export class Store {
             selectable: true,
             lockUniScaling: true,
             fill: "#ffffff",
+            backgroundColor: "#0037ff",
+            padding: 10,
           });
           element.fabricObject = textObject;
           canvas.add(textObject);
@@ -888,6 +932,7 @@ export class Store {
       }
       if (element.fabricObject) {
         element.fabricObject.on("selected", function (e) {
+          console.warn("this object is selected now");
           store.setSelectedElement(element);
         });
       }
@@ -909,6 +954,7 @@ export function isEditorAudioElement(
 ): element is AudioEditorElement {
   return element.type === "audio";
 }
+
 export function isEditorVideoElement(
   element: EditorElement
 ): element is VideoEditorElement {

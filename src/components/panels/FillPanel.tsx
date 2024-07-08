@@ -5,16 +5,17 @@ import { observer } from "mobx-react";
 import { BlockPicker } from "react-color";
 
 const professionalVideoColors = [
-  "#000000", // Black
-  "#FFFFFF", // White
-  "#404040", // Dark Gray
-  "#808080", // Gray
-  "#C0C0C0", // Silver
-  "#E0E0E0", // Light Gray
+  "#0037ff", // Songdew 
   "#003366", // Dark Blue
   "#336699", // Medium Blue
   "#6699CC", // Blue
   "#99CCFF", // Light Blue
+  "#000000", // Black
+  // "#404040", // Dark Gray
+  "#808080", // Gray
+  "#C0C0C0", // Silver
+  "#E0E0E0", // Light Gray
+  "#FFFFFF", // White
   "#990000", // Dark Red
   "#CC3333", // Red
   "#FF6666", // Light Red
