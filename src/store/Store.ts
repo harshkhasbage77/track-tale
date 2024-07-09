@@ -706,15 +706,17 @@ export class Store {
             // workerURL: await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript'),
           });
           await ffmpeg.writeFile('video.webm', data);
-          await ffmpeg.exec(["-y", "-i", "video.webm", "-c", "copy", "video.mp4"]);
+          await ffmpeg.exec(['-i', 'video.webm', 'output.mp4']);
+          // await ffmpeg.exec(["-y", "-i", "video.webm", "-c", "copy", "video.mp4"]); // this is COMMENTED
           // await ffmpeg.exec(["-y", "-i", "video.webm", "-c:v", "libx264", "video.mp4"]);
 
-          const output = await ffmpeg.readFile('video.mp4');
+          // const output = await ffmpeg.readFile('video.mp4'); // this is COMMENTED
+          const output = await ffmpeg.readFile('output.mp4');
           const outputBlob = new Blob([output], { type: "video/mp4" });
           const outputUrl = URL.createObjectURL(outputBlob);
           const a = document.createElement("a");
           a.href = outputUrl;
-          a.download = "video.mp4";
+          a.download = "Track_Tale.mp4";
           a.click();
 
         } else {

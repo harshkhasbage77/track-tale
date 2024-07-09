@@ -20,7 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/S_logo_RGB.png" />
+        {/* <link rel="icon" href="/S_logo_RGB.png" /> */}
+        <link rel="shortcut icon" href="/S_logo_RGB.png" type="image/x-icon" />
         {/* <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} /> */}
       </head>
