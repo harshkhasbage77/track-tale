@@ -410,6 +410,7 @@ export class Store {
       });
     }
   }
+
   updateTimeTo(newTime: number) {
     this.setCurrentTimeInMs(newTime);
     this.animationTimeLine.seek(newTime);
@@ -593,6 +594,7 @@ export class Store {
         }
       })
   }
+  
   updateAudioElements() {
     this.editorElements.filter(
       (element): element is AudioEditorElement =>
@@ -949,7 +951,6 @@ export class Store {
   }
 
 }
-
 
 export function isEditorAudioElement(
   element: EditorElement

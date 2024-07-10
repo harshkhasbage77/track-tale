@@ -6,6 +6,7 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
     const ref = useRef<HTMLCanvasElement>(null);
     const refIsMouseDown = useRef(false);
     const [canvasSize, setCanvasSize] = useState({ width: 50, height: props.height });
+
     useEffect(() => {
         // update canvas size based on container size
         const handleResize = () => {
@@ -22,6 +23,7 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
             window.removeEventListener("resize", handleResize);
         };
     }, []);
+    
     useEffect(() => {
         if (ref.current) {
             const canvas = ref.current;
@@ -40,11 +42,11 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
                         ctx.lineTo(i / max * canvas.width, marking.size);
                     }
                     ctx.stroke();
-                }
-                );
+                });
             }
         }
     }, [props.markings, props.backgroundColor, max, canvasSize]);
+    
     const updateFromMouseEvent = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const rect = ref.current?.getBoundingClientRect();
         if (rect) {
@@ -54,6 +56,7 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
             onChange(normalizedValue);
         }
     };
+    
     return <div
         className="relative w-full"
         onMouseDown={(e) => {
@@ -86,7 +89,9 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
         </div>
 
     </div>;
-}; export type ScaleRangeInputProps = {
+}; 
+
+export type ScaleRangeInputProps = {
     max: number;
     value: number;
     markings: Marking[];
@@ -94,11 +99,11 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
     height: number;
     backgroundColor: string;
 };
+
 export type Marking = {
     interval: number;
     color: string;
     size: number;
     width: number;
-
 };
 
