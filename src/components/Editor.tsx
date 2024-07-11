@@ -31,11 +31,18 @@ export const Editor = observer(() => {
       width: 800,
       backgroundColor: "#ededed",
     });
-    fabric.Object.prototype.transparentCorners = false;
-    fabric.Object.prototype.cornerColor = "#00a0f5";
+    // fabric.Object.prototype.transparentCorners = false;
+    fabric.Object.prototype.transparentCorners = true;
+    fabric.Object.prototype.cornerColor = "#0050a0";
     fabric.Object.prototype.cornerStyle = "circle";
-    fabric.Object.prototype.cornerStrokeColor = "#0063d8";
+    // fabric.Object.prototype.cornerStrokeColor = "#FFC800"; // not if use bcoz transparentCorners is true
     fabric.Object.prototype.cornerSize = 10;
+    fabric.Object.prototype.borderColor = "#000000";
+    fabric.Object.prototype.borderDashArray = [10, 5];
+    fabric.Object.prototype.borderScaleFactor = 1.5;
+    // fabric.Object.prototype;
+    // fabric.Object.prototype.cornerDashArray = [10, 0]; // no need
+    fabric.Object.prototype.borderOpacityWhenMoving = 0.4;
     // canvas mouse down without target should deselect active object
     canvas.on("mouse:down", function (e) {
       if (!e.target) {
