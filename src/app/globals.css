@@ -23,9 +23,10 @@ body {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom,
+  /* background-color:slategrey; */
+  /* background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb)); */
 }
 
 /* .custom-scrollbar {
@@ -67,3 +68,55 @@ For WebKit browsers like Chrome and Safari
   border-radius: 20px;
   background: #a82424;
 }
+
+
+
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 2px;
+  /* display: none; */
+}
+
+.custom-scrollbar::-webkit-scrollbar:hover {
+  /* width: 2px; */
+  display: block;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: red;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(0, 163, 101);
+  border-radius: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Hide scrollbar by default */
+.custom-scrollbar {
+  /* scrollbar-width: thin;  */
+  /* For Firefox */
+  /* scrollbar-color: blue transparent;  */
+  /* For Firefox */
+  scrollbar-arrow-color: blue;
+  scrollbar-track-color: rgb(255, 0, 255);
+}
+
+.custom-scrollbar:hover {
+  /* scrollbar-width: auto; */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+/* 
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.7);
+} */

@@ -659,6 +659,7 @@ export class Store {
     
     
     const audioElements = this.editorElements.filter(isEditorAudioElement)
+    console.log("audio elements ", audioElements);
     const audioStreams: MediaStream[] = [];
     
     audioElements.forEach((audio) => {
@@ -673,6 +674,7 @@ export class Store {
     
     audioStreams.forEach((audioStream) => {
       stream.addTrack(audioStream.getAudioTracks()[0]);
+      console.log("audioStream.getAudioTracks()[0] ", audioStream.getAudioTracks()[0]);
     });
     
     
@@ -684,12 +686,13 @@ export class Store {
     // video.controls = true;
     // document.body.appendChild(video);
     video.play().then(() => {
-      const mediaRecorder = new MediaRecorder(stream);
+      // const mediaRecorder = new MediaRecorder(stream);
+      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp8' });
       const chunks: Blob[] = [];
       mediaRecorder.ondataavailable = function (e) {
+        console.log("data size is ", e.data.size);
         chunks.push(e.data);
         console.log("data available");
-
       };
       mediaRecorder.onstop = async function (e) {
         const blob = new Blob(chunks, { type: "video/webm" });
@@ -725,8 +728,11 @@ export class Store {
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
+
           a.download = "Track_Tale.webm";
+          console.log("a.download is ", a.download);
           a.click();
+          console.log("a.click() called");
         }
       };
       mediaRecorder.start();

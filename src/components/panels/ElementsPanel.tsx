@@ -7,8 +7,8 @@ import { Element } from "../entity/Element";
 export const ElementsPanel = observer((_props: {}) => {
   const store = React.useContext(StoreContext);
   return (
-    <div className="bg-slate-200 h-full overflow-scroll custom-scrollbar">
-      <div className="flex flex-row justify-between">
+    <div className="bg-slate-200 h-full">
+      <div className="flex flex-row justify-center">
         <div className="text-sm px-[16px] py-[7px] font-semibold">Elements</div>
       </div>
       <div className="flex flex-col">

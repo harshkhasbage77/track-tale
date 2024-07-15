@@ -11,7 +11,7 @@ export const TimeLine = observer(() => {
   return (
     <div className="flex flex-col">
       <SeekPlayer />
-      <div className="flex-1 relative overflow-y-scroll ">
+      <div className="flex-1 relative h-64 overflow-y-auto timeline-elements custom-scrollbar">
         {store.editorElements.map((element) => {
           return <TimeFrameView key={element.id} element={element} />;
         })}

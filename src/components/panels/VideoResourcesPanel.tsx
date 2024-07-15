@@ -17,6 +17,7 @@ export const VideoResourcesPanel = observer(() => {
 
     videoElement.onloadedmetadata = () => {
       const videoDuration = videoElement.duration;
+      console.log('videoDuration:', videoDuration);
       if (videoDuration <= 600) { // 600 seconds = 10 minutes
         store.addVideoResource(videoURL);
       } else {
