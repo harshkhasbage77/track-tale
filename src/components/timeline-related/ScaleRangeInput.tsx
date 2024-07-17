@@ -11,10 +11,14 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
         // update canvas size based on container size
         const handleResize = () => {
             if (ref.current) {
+                console.log("this is clientWidth " + ref.current.parentElement?.clientWidth);
                 setCanvasSize({
-                    width: ref.current.parentElement?.clientWidth ?? 50,
+                    width: (ref.current.parentElement?.clientWidth ?? 50) - 8,
                     height: ref.current.parentElement?.clientHeight ?? props.height
                 });
+                console.log("this is canvasSize.width " + canvasSize.width);
+                // setCanvasSize({width: `${canvasSize.width} - 50`, height: canvasSize.height});
+                console.log("this is canvasSize.width " + canvasSize.width);
             }
         };
         window.addEventListener("resize", handleResize);
@@ -58,7 +62,7 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
     };
     
     return <div
-        className="relative w-full"
+        className="relative w-full mx-1"
         onMouseDown={(e) => {
             refIsMouseDown.current = true;
             updateFromMouseEvent(e);

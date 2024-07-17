@@ -11,14 +11,16 @@ export const TimeLine = observer(() => {
   return (
     <div className="flex flex-col">
       <SeekPlayer />
-      <div className="flex-1 relative h-64 overflow-y-auto timeline-elements custom-scrollbar">
+      <div className="relative overflow-y-auto timeline-elements custom-scrollbar h-[360px]">
         {store.editorElements.map((element) => {
           return <TimeFrameView key={element.id} element={element} />;
         })}
         <div
-          className="w-[2px] bg-red-400 absolute top-0 bottom-0 z-20"
+          // className="w-[2px] bg-red-400 absolute top-0 bottom-0 z-20"
+          className="w-[2px] bg-red-400 absolute top-0 z-20"
           style={{
             left: `${percentOfCurrentTime}%`,
+            height: `${store.editorElements.length * 68}px`,
           }}
         ></div>
       </div>

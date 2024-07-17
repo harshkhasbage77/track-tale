@@ -74,6 +74,8 @@ For WebKit browsers like Chrome and Safari
 /* Custom scrollbar styles */
 .custom-scrollbar::-webkit-scrollbar {
   width: 2px;
+  /* z-index: 1000; */
+  /* scrollbar-gutter: stable both-edges; */
   /* display: none; */
 }
 
@@ -83,12 +85,12 @@ For WebKit browsers like Chrome and Safari
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: red;
+  background: rgb(122, 172, 230);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgb(0, 163, 101);
-  border-radius: 5px;
+  background-color: rgb(88, 61, 241);
+  border-radius: 9px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
@@ -101,8 +103,9 @@ For WebKit browsers like Chrome and Safari
   /* For Firefox */
   /* scrollbar-color: blue transparent;  */
   /* For Firefox */
-  scrollbar-arrow-color: blue;
+  scrollbar-arrow-color: rgb(21, 255, 0);
   scrollbar-track-color: rgb(255, 0, 255);
+  scrollbar-gutter: stable both-edges; 
 }
 
 .custom-scrollbar:hover {
@@ -110,7 +113,7 @@ For WebKit browsers like Chrome and Safari
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
 /* 
 .custom-scrollbar::-webkit-scrollbar-thumb {

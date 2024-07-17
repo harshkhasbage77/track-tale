@@ -123,7 +123,7 @@ export const Editor = observer(() => {
       <div className="col-start-4 row-start-2 overflow-auto custom-scrollbar">
         <ElementsPanel />
       </div>
-      <div className="col-start-3 row-start-3 col-span-2 relative px-[10px] py-[4px] bg-blue-200">
+      <div className="col-start-3 row-start-3 col-span-2 relative bg-blue-200">
         <TimeLine />
       </div>
     </div>
