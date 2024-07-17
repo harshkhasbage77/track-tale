@@ -39,7 +39,7 @@ const Navbar = () => {
         // console.log("Project Title saved to local storage" + projectTitle);
     };
 
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event : any) => { // event: MouseEvent
         if(inputRef.current && !inputRef.current.contains(event.target)) {
             // handleSaveClick();
             // console.log("ye hua outside click karke save");
@@ -75,7 +75,7 @@ const Navbar = () => {
         setDropdownVisible(!dropdownVisible);
     };
 
-    const closeDropdown = (event) => {
+    const closeDropdown = (event : any) => {
         if (!event.target.closest('.dropdown')) {
         setDropdownVisible(false);
         }
