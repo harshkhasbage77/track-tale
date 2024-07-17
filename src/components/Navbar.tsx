@@ -11,7 +11,8 @@ import Image from "next/image";
 const Navbar = () => {
     const [projectTitle, setProjectTitle] = useState("Untitled Project");
     const [isEditing, setIsEditing] = useState(false);
-    const inputRef = useRef(null);
+    // const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const [dropdownVisible, setDropdownVisible] = useState(false);
 
     useEffect(() => {
@@ -25,7 +26,9 @@ const Navbar = () => {
         setIsEditing(true);
         setTimeout(() => {
             // console.log("ye hua execute");
-            inputRef.current.focus();
+            if (inputRef.current) {
+                inputRef.current.focus();
+            }
         },100);
     };
 
