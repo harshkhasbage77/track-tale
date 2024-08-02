@@ -956,6 +956,86 @@ export class Store {
     store.canvas.renderAll();
   }
 
+
+
+  // serialize() {
+  //   return JSON.stringify({
+  //     // canvas: this.canvas,
+  //     backgroundColor: this.backgroundColor,
+  //     selectedMenuOption: this.selectedMenuOption,
+  //     audios: this.audios,
+  //     videos: this.videos,
+  //     images: this.images,
+  //     editorElements: this.editorElements,
+  //     selectedElement: this.selectedElement,
+  //     maxTime: this.maxTime,
+  //     animations: this.animations,
+  //     animationTimeLine: this.animationTimeLine,
+  //     playing: this.playing,
+  //     currentKeyFrame: this.currentKeyFrame,
+  //     fps: this.fps,
+  //     possibleVideoFormats: this.possibleVideoFormats,
+  //     selectedVideoFormat: this.selectedVideoFormat
+  //   });
+  // }
+
+  // deserialize(json: string) {
+  //   const data = JSON.parse(json);
+  //   // this.canvas = data.canvas;
+  //   this.backgroundColor = data.backgroundColor;
+  //   this.selectedMenuOption = data.selectedMenuOption;
+  //   this.audios = data.audios;
+  //   this.videos = data.videos;
+  //   this.images = data.images;
+  //   this.editorElements = data.editorElements;
+  //   this.selectedElement = data.selectedElement;
+  //   this.maxTime = data.maxTime;
+  //   this.animations = data.animations;
+  //   this.animationTimeLine = data.animationTimeLine;
+  //   this.playing = data.playing;
+  //   this.currentKeyFrame = data.currentKeyFrame;
+  //   this.fps = data.fps;
+  //   this.possibleVideoFormats = data.possibleVideoFormats;
+  //   this.selectedVideoFormat = data.selectedVideoFormat;
+  // }
+
+  serialize() {
+    return JSON.stringify({
+      backgroundColor: this.backgroundColor,
+      selectedMenuOption: this.selectedMenuOption,
+      audios: this.audios,
+      videos: this.videos,
+      images: this.images,
+      editorElements: this.editorElements,
+      selectedElement: this.selectedElement,
+      maxTime: this.maxTime,
+      animations: this.animations,
+      playing: this.playing,
+      currentKeyFrame: this.currentKeyFrame,
+      fps: this.fps,
+      possibleVideoFormats: this.possibleVideoFormats,
+      selectedVideoFormat: this.selectedVideoFormat,
+    });
+  }
+
+  deserialize(state) {
+    const data = JSON.parse(state);
+    this.backgroundColor = data.backgroundColor;
+    this.selectedMenuOption = data.selectedMenuOption;
+    this.audios = data.audios;
+    this.videos = data.videos;
+    this.images = data.images;
+    this.editorElements = data.editorElements;
+    this.selectedElement = data.selectedElement;
+    this.maxTime = data.maxTime;
+    this.animations = data.animations;
+    this.playing = data.playing;
+    this.currentKeyFrame = data.currentKeyFrame;
+    this.fps = data.fps;
+    this.possibleVideoFormats = data.possibleVideoFormats;
+    this.selectedVideoFormat = data.selectedVideoFormat;
+  }
+
 }
 
 export function isEditorAudioElement(
@@ -1004,3 +1084,4 @@ function getTextObjectsPartitionedByCharacters(textObject: fabric.Text, element:
   }
   return copyCharsObjects;
 }
+

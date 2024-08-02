@@ -19,8 +19,8 @@ export const EditorWithStore = () => {
     <StoreContext.Provider value={store}>
       <Editor></Editor>
     </StoreContext.Provider>
-  );
-}
+  ); 
+} 
 
 export const Editor = observer(() => {
   const store = React.useContext(StoreContext);
@@ -122,9 +122,9 @@ export const Editor = observer(() => {
       </div>
       <div className="col-start-4 row-start-2 overflow-auto custom-scrollbar">
         <ElementsPanel />
-      </div>
+      </div> 
       <div className="col-start-3 row-start-3 col-span-2 relative bg-blue-200">
-        <TimeLine />
+        <TimeLine /> 
       </div>
     </div>
 

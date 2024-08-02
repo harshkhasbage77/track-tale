@@ -7,8 +7,11 @@ import { FaAngleLeft } from "react-icons/fa";
 import { BsPatchQuestion } from "react-icons/bs";
 import { PiExportBold } from "react-icons/pi";
 import Image from "next/image";
+import { observer } from "mobx-react";
+import { StoreContext } from "@/store";
 
-const Navbar = () => {
+const Navbar = observer(() => {
+    const store = React.useContext(StoreContext);
     const [projectTitle, setProjectTitle] = useState("Untitled Project");
     const [isEditing, setIsEditing] = useState(false);
     // const inputRef = useRef(null);
@@ -88,6 +91,64 @@ const Navbar = () => {
         };
     }, []);
 
+    // const handleSaveStore = () => {
+    //     console.log("Save Store");
+        
+    // };
+
+    // // Function to save state to JSON file
+    // const saveStateToFile = () => {
+    //     const state = { projectTitle };
+    //     const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    //     const url = URL.createObjectURL(blob);
+    //     const a = document.createElement('a');
+    //     a.href = url;
+    //     a.download = 'state.json';
+    //     a.click();
+    //     URL.revokeObjectURL(url);
+    // };
+
+    // // Function to load state from JSON file
+    // const loadStateFromFile = (event) => {
+    //     const file = event.target.files[0];
+    //     if (file) {
+    //     const reader = new FileReader();
+    //     reader.onload = (e) => {
+    //         const state = JSON.parse(e.target.result);
+    //         setProjectTitle(state.projectTitle);
+    //         localStorage.setItem("projectTitle", state.projectTitle);
+    //     };
+    //     reader.readAsText(file);
+    //     }
+    // };
+
+
+    // Function to save store state to JSON file
+    const saveStateToFile = () => {
+        const state = store.serialize();
+        const blob = new Blob([state], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'state.json';
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
+    // Function to load store state from JSON file
+    const loadStateFromFile = (event : React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files[0];
+        if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const state = e.target.result;
+            store.deserialize(state);
+        };
+        reader.readAsText(file);
+        }
+    };
+
+
     return (
         <nav className="bg-gray-800 px-4 shadow text-white">
             <div className="container mx-auto flex justify-between items-center">
@@ -102,7 +163,7 @@ const Navbar = () => {
                             <FaSortDown className="ml-2 "/>
                         </button>
                         <ul className={`absolute min-w-max border-sm rounded bg-gray-800/75 ${dropdownVisible ? "block" : "hidden"} text-white shadow-lg mt-2 py-2`}>
-                            <li><a className="block px-4 py-2 hover:bg-gray-600" href="#">Save</a></li>
+                            <li><a className="block px-4 py-2 hover:bg-gray-600" href="#" onClick={saveStateToFile}>Save</a></li>
                             <li><a className="block px-4 py-2 hover:bg-gray-600" href="#">Save As...</a></li>
                             <li className="border-t my-1"></li>
                             <li><a className="block px-4 py-2 hover:bg-gray-800" href="#">Save & Exit</a></li>
@@ -175,10 +236,12 @@ const Navbar = () => {
                         className="rounded-full h-6 w-6 ring-2 ring-white" 
                     /> */}
                 </div>
+
+                <input type="file" onChange={loadStateFromFile} className="btn btn-secondary mx-2" />
+
             </div>
         </nav>
     );
-        
-}
+});
 
 export default Navbar;
