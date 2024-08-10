@@ -1006,6 +1006,9 @@ export class Store {
       audios: this.audios,
       videos: this.videos,
       images: this.images,
+      // audios: this.audios.map(audio => audio.path), // Store audio paths
+      // videos: this.videos.map(video => video.path), // Store video paths
+      // images: this.images.map(image => image.path), // Store image paths
       editorElements: this.editorElements,
       selectedElement: this.selectedElement,
       maxTime: this.maxTime,
@@ -1018,13 +1021,17 @@ export class Store {
     });
   }
 
-  deserialize(state) {
+  deserialize(state : any) {
     const data = JSON.parse(state);
     this.backgroundColor = data.backgroundColor;
     this.selectedMenuOption = data.selectedMenuOption;
     this.audios = data.audios;
     this.videos = data.videos;
     this.images = data.images;
+    // this.audios = data.audios.map(path => this.loadAudio(path)); // Load audio files
+    // this.videos = data.videos.map(path => this.loadVideo(path)); // Load video files
+    // this.images = data.images.map(path => this.loadImage(path)); // Load image files
+    
     this.editorElements = data.editorElements;
     this.selectedElement = data.selectedElement;
     this.maxTime = data.maxTime;
@@ -1035,6 +1042,27 @@ export class Store {
     this.possibleVideoFormats = data.possibleVideoFormats;
     this.selectedVideoFormat = data.selectedVideoFormat;
   }
+
+
+  // loadAudio(path) {
+  //   const audio = new Audio(path);
+  //   // Additional setup for the audio element if needed
+  //   return audio;
+  // }
+
+  // loadVideo(path) {
+  //   const video = document.createElement('video');
+  //   video.src = path;
+  //   // Additional setup for the video element if needed
+  //   return video;
+  // }
+
+  // loadImage(path) {
+  //   const img = new Image();
+  //   img.src = path;
+  //   // Additional setup for the image element if needed
+  //   return img;
+  // }
 
 }
 

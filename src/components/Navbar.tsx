@@ -137,14 +137,49 @@ const Navbar = observer(() => {
 
     // Function to load store state from JSON file
     const loadStateFromFile = (event : React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files[0];
-        if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const state = e.target.result;
-            store.deserialize(state);
-        };
-        reader.readAsText(file);
+        // const file = event.target.files[0];
+        // if (file) {
+        //     const reader = new FileReader();
+        //     reader.onload = (e) => {
+        //         const state = e.target.result;
+        //         store.deserialize(state);
+        //     };
+        //     reader.readAsText(file);
+        // }
+        const files = event.target.files;
+
+        // Check if the file type is JSON
+        
+        if (files && files.length > 0) {
+            const file = files[0];
+            
+            if (file.type !== "application/json") {
+                alert("Invalid file format. Please upload a JSON file.");
+                event.target.value = '';  // Clear the input value to prevent file upload
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const state = e.target?.result as string;
+                // store.deserialize(state);
+
+                try {
+                    // const parsedState = JSON.parse(state);
+                    // store.deserialize(parsedState);
+                    store.deserialize(state);
+                    alert("State successfully loaded from the JSON file.");
+                } catch (error) {
+                    console.error("Error during deserialization:", error);
+                    alert("Error loading state from JSON file.");
+                }
+
+            };
+            reader.readAsText(file);
+        }
+        else {
+            console.error("No file selected. Please upload a JSON file.");
+            alert("No file selected. Please upload a JSON file.");
         }
     };
 
@@ -237,7 +272,7 @@ const Navbar = observer(() => {
                     /> */}
                 </div>
 
-                <input type="file" onChange={loadStateFromFile} className="btn btn-secondary mx-2" />
+                <input type="file" accept=".json" onChange={loadStateFromFile} className="btn btn-secondary mx-2" />
 
             </div>
         </nav>
