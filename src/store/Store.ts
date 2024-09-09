@@ -46,7 +46,26 @@ export class Store {
     this.animationTimeLine = anime.timeline();
     this.selectedMenuOption = 'Video';
     this.selectedVideoFormat = 'mp4';
+
+    // Preload particular video assets (alphas)
+    this.preloadVideos();
+
     makeAutoObservable(this);
+  }
+
+  
+
+  // Method to preload videos (aplhas)
+  preloadVideos() {
+    const preloadedVideos = [
+      '/videos/Track Tales Intro Audio fixed.mp4',
+      '/videos/left_alphas.webm',
+      '/videos/blue transition mov.webm',
+      '/videos/Spiral.webm',
+      '/videos/Endplate_Copyright.mp4'
+    ];
+
+    this.setVideos(preloadedVideos);
   }
 
   get canvasHeight() {
@@ -102,6 +121,7 @@ export class Store {
 
   addVideoResource(video: string) {
     this.videos = [...this.videos, video];
+    console.log("videos after adding new video resource are: ", this.videos);
   }
   deleteVideoResource(video: string) {
     this.videos = this.videos.filter((v) => v !== video);
@@ -318,9 +338,9 @@ export class Store {
   }
 
   canvasContainerClicked(event: React.MouseEvent<HTMLDivElement>) {
-    console.warn("canvas container clicked and store function execurted");
+    // console.warn("canvas container clicked and store function execurted");
     if(event?.target instanceof HTMLCanvasElement){
-      console.warn("in m inside");
+      // console.warn("in m inside");
       return;
     }
     this.setSelectedElement(null);
@@ -346,6 +366,7 @@ export class Store {
     if (timeFrame.end != undefined && timeFrame.end > this.maxTime) {
       timeFrame.end = this.maxTime;
     }
+    console.log("this is old editor element ", editorElement);
     const newEditorElement = {
       ...editorElement,
       timeFrame: {
@@ -353,6 +374,7 @@ export class Store {
         ...timeFrame,
       }
     }
+    console.log("this is new editor element ", newEditorElement);
     this.updateVideoElements();
     this.updateAudioElements();
     this.updateEditorElement(newEditorElement);
@@ -361,6 +383,11 @@ export class Store {
 
 
   addEditorElement(editorElement: EditorElement) {
+    if(editorElement.timeFrame.end > this.maxTime) {
+      this.setMaxTime(editorElement.timeFrame.end);
+      // this.maxTime = editorElement.timeFrame.end;
+      console.log("max time is ", this.maxTime);
+    }
     this.setEditorElements([...this.editorElements, editorElement]);
     this.refreshElements();
     this.setSelectedElement(this.editorElements[this.editorElements.length - 1]);
@@ -437,39 +464,71 @@ export class Store {
 
   addVideo(index: number) {
     const videoElement = document.getElementById(`video-${index}`)
+    console.log("video element's index is ", videoElement, index);
     if (!isHtmlVideoElement(videoElement)) {
       return;
     }
     const videoDurationMs = videoElement.duration * 1000;
     const aspectRatio = videoElement.videoWidth / videoElement.videoHeight;
     const id = getUid();
-    this.addEditorElement(
-      {
-        id,
-        name: `Media(video) ${index + 1}`,
-        type: "video",
-        placement: {
-          x: 400 - 50 * aspectRatio,
-          y: 175,
-          width: 100 * aspectRatio,
-          height: 100,
-          rotation: 0,
-          scaleX: 1,
-          scaleY: 1,
+    // console.log("video id is ", id);
+    if (index < 5){
+      this.addEditorElement(
+        {
+          id,
+          name: `Media(video) ${index + 1}`,
+          type: "video",
+          placement: {
+            x: 0,
+            y: 0,
+            width: this.canvasWidth,
+            height: this.canvasHeight,
+            rotation: 0,
+            scaleX: 1,
+            scaleY: 1,
+          },
+          timeFrame: {
+            start: 0,
+            end: videoDurationMs,
+          },
+          properties: {
+            elementId: `video-${id}`,
+            src: videoElement.src,
+            effect: {
+              type: "none",
+            }
+          },
         },
-        timeFrame: {
-          start: 0,
-          end: videoDurationMs,
+      );
+    } else {
+      this.addEditorElement(
+        {
+          id,
+          name: `Media(video) ${index + 1}`,
+          type: "video",
+          placement: {
+            x: 400 - 50 * aspectRatio,
+            y: 175,
+            width: 100 * aspectRatio,
+            height: 100,
+            rotation: 0,
+            scaleX: 1,
+            scaleY: 1,
+          },
+          timeFrame: {
+            start: 0,
+            end: videoDurationMs,
+          },
+          properties: {
+            elementId: `video-${id}`,
+            src: videoElement.src,
+            effect: {
+              type: "none",
+            }
+          },
         },
-        properties: {
-          elementId: `video-${id}`,
-          src: videoElement.src,
-          effect: {
-            type: "none",
-          }
-        },
-      },
-    );
+      );
+    }
   }
 
   addImage(index: number) {
@@ -709,6 +768,7 @@ export class Store {
             coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
             wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
             // workerURL: await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript'),
+            workerURL: await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript'),
           });
           await ffmpeg.writeFile('video.webm', data);
           await ffmpeg.exec(['-i', 'video.webm', 'output.mp4']);

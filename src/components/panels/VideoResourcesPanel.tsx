@@ -14,6 +14,7 @@ export const VideoResourcesPanel = observer(() => {
     const videoURL = URL.createObjectURL(file);
     const videoElement = document.createElement('video');
     videoElement.src = videoURL;
+    console.log('videoURL:', videoURL);
 
     videoElement.onloadedmetadata = () => {
       const videoDuration = videoElement.duration;

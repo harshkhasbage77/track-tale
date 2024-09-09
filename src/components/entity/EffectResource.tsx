@@ -11,10 +11,13 @@ const EFFECT_TYPE_TO_LABEL: Record<string, string> = {
   saturate: "Saturate",
   sepia: "Sepia",
   invert: "Invert",
+  blueScreen: "Blue Screen",
 };
+
 export type EffectResourceProps = {
   editorElement: VideoEditorElement | ImageEditorElement;
 };
+
 export const EffectResource = observer((props: EffectResourceProps) => {
   const store = React.useContext(StoreContext);
   return (

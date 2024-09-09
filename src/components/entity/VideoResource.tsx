@@ -9,6 +9,7 @@ type VideoResourceProps = {
   video: string;
   index: number;
 };
+
 export const VideoResource = observer(
   ({ video, index }: VideoResourceProps) => {
     const store = React.useContext(StoreContext);
@@ -28,7 +29,8 @@ export const VideoResource = observer(
         >
           <MdAdd size="25" />
         </button>
-        <button
+        {index < 5 ? null : (
+          <button
           // className="hover:bg-[#00a0f5] bg-[rgba(0,0,0,.25)] rounded z-10 text-white font-bold py-1 absolute text-lg bottom-2 right-2"
           className="hover:bg-[#00a0f5] bg-[rgba(0,0,0,.25)] rounded-full z-10 text-white font-bold p-1 absolute text-lg bottom-2 right-12"
           onClick={() => {
@@ -41,6 +43,21 @@ export const VideoResource = observer(
         >
           <MdDelete size="25" />
         </button>
+        )}
+        {/*  PRELOADED ALPHAS CANNOT BE REMOVED BY THE USER
+        <button
+          // className="hover:bg-[#00a0f5] bg-[rgba(0,0,0,.25)] rounded z-10 text-white font-bold py-1 absolute text-lg bottom-2 right-2"
+          className="hover:bg-[#00a0f5] bg-[rgba(0,0,0,.25)] rounded-full z-10 text-white font-bold p-1 absolute text-lg bottom-2 right-12"
+          onClick={() => {
+            console.log("delete video");
+            const deleteConfirmation = confirm("Are you sure you want to delete the video? This may affect your project.");
+            if(deleteConfirmation){
+              store.deleteVideoResource(video);
+            }
+          }}
+        >
+          <MdDelete size="25" />
+        </button> */}
         <video
           onLoadedData={() => {
             const videoLength = ref.current?.duration ?? 0;

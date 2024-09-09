@@ -61,7 +61,8 @@ export type BlackAndWhiteEffect = EffectBase<"none"> |
 EffectBase<"blackAndWhite"> | 
 EffectBase<"sepia"> | 
 EffectBase<"invert"> |
-EffectBase<"saturate"> ;
+EffectBase<"saturate"> |
+EffectBase<"blueScreen">;
 export type Effect = BlackAndWhiteEffect;
 export type EffecType = Effect["type"];
 

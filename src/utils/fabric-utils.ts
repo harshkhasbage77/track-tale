@@ -185,6 +185,9 @@ function getFilterFromEffectType(effectType: EffecType){
             return "invert(100%)";
         case "saturate":
             return "saturate(100%)";
+        case "blueScreen":
+            return "grayscale(100%) opacity(45%)";
+            // return "opacity(50%) drop-shadow(0 0 10px rgba(0, 123, 255, 0.5))";
         default:
             return "none";
     }

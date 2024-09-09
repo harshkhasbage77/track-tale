@@ -9,7 +9,7 @@ function DragableView(props: {
   value: number;
   total: number;
   onChange: (value: number) => void;
-  // onExceedMaxTime?: (value: number) => void;  
+  // onExceedMaxTime?: (value: number) => void;
 }) {
   const ref = useRef<{
     div: HTMLDivElement | null;
@@ -27,7 +27,7 @@ function DragableView(props: {
     const deltaValue =
       (deltaX / data.div.parentElement!.clientWidth) * props.total;
     let newValue = props.value + deltaValue;
-    if (newValue < 0) newValue = 0; 
+    if (newValue < 0) newValue = 0;
     return newValue;
   }
 
@@ -52,7 +52,7 @@ function DragableView(props: {
     if (!data.isDragging) return;
     data.isDragging = false;
     props.onChange(calculateNewValue(event.clientX));
-    
+
     // const newValue = calculateNewValue(event.clientX);
     // if (newValue > props.total) {
     //   props.onExceedMaxTime?.(newValue);

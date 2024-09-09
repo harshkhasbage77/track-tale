@@ -10,9 +10,9 @@ export const TimeFrameView = observer((props: { element: EditorElement }) => {
   const { element } = props;
   // const disabled = element.type === "audio";
   const disabled = false;
-  console.log("element: ", element);
-  console.log("element.type: ", element.type);
-  console.log("disabled: ", disabled);
+  // console.log("element: ", element);
+  // console.log("element.type: ", element.type);
+  // console.log("disabled: ", disabled);
   const isSelected = store.selectedElement?.id === element.id;
   const bgColorOnSelected = isSelected ? "bg-slate-800" : "bg-slate-600";
   const disabledCursor = disabled ? "cursor-no-drop" : "cursor-ew-resize";
@@ -34,6 +34,7 @@ export const TimeFrameView = observer((props: { element: EditorElement }) => {
         total={store.maxTime}
         disabled={disabled}
         onChange={(value) => {
+          console.log("I have changed using draggable view, value: ", value);
           store.updateEditorElementTimeFrame(element, {
             start: value,
           });
