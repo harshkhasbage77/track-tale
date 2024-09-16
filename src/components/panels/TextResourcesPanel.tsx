@@ -54,6 +54,25 @@ const TEXT_RESOURCES = [
     fontSize: 12,
     fontWeight: 800,
   },
+  {
+    name: "SONG NAME",
+    fontSize: 24,
+    fontWeight: 800,
+    hasControls: false,
+    // coordinates: { x: 0.583333333, y: 0.416666667 },
+  },
+  {
+    name: "ARTIST NAME",
+    fontSize: 22,
+    fontWeight: 100,
+    hasControls: false,
+  },
+  {
+    name: "Motion Lyrics",
+    fontSize: 20,
+    fontWeight: 500,
+    hasControls: true,
+  }
 ];
 
 export const TextResourcesPanel = observer(() => {
@@ -63,19 +82,24 @@ export const TextResourcesPanel = observer(() => {
         Text
       </div>
       <ul>
-
-
         {TEXT_RESOURCES.map((resource) => {
           return (
             <li
               key={resource.name}
               className=""
-            >
+            > 
               <TextResource
                 sampleText={resource.name}
                 fontSize={resource.fontSize}
                 fontWeight={resource.fontWeight}
-              />
+                hasControls={resource.hasControls??true}
+                // coordinates={ 
+                //   {
+                //     x: resource.coordinates?.x ?? 0, 
+                //     y: resource.coordinates?.y ?? 0
+                //   } 
+                // }
+              /> 
             </li>
           );
         })}

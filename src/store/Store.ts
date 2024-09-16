@@ -6,6 +6,7 @@ import { MenuOption, EditorElement, Animation, TimeFrame, VideoEditorElement, Au
 import { FabricUitls } from '@/utils/fabric-utils';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { toBlobURL } from '@ffmpeg/util';
+import { PiWarningDiamondThin } from 'react-icons/pi';
 
 export class Store {
   canvas: fabric.Canvas | null
@@ -602,23 +603,30 @@ export class Store {
     );
 
   }
+
   addText(options: {
     text: string,
     fontSize: number,
     fontWeight: number,
+    fontFamily: string,
+    hasControls?: boolean,
+    coordinates?: {
+      x?: number,
+      y?: number,
+    }
   }) {
     const id = getUid();
     const index = this.editorElements.length;
     this.addEditorElement(
       {
         id,
-        name: `Text ${index + 1}`,
+        name: `Text ${index + 1}: ${options.text}`,
         type: "text",
         placement: {
-          x: 0,
-          y: 0,
-          width: 100,
-          height: 100,
+          x: options.coordinates?.x ?? (this.canvasWidth * 7 / 12),
+          y: options.coordinates?.y?? (this.canvasHeight * 1 / 3),
+          width: 150,
+          height: 80,
           rotation: 0,
           scaleX: 1,
           scaleY: 1,
@@ -632,7 +640,8 @@ export class Store {
           fontSize: options.fontSize,
           fontWeight: options.fontWeight,
           splittedTexts: [],
-          // fontFamily: "Poppins",
+          fontFamily: options.fontFamily,
+          hasControls: options.hasControls ?? true,
         },
       },
     );
@@ -952,7 +961,7 @@ export class Store {
         }
         case "text": {
           const textObject = new fabric.Textbox(element.properties.text, {
-            name: element.id,
+            name: element.properties.text,
             left: element.placement.x,
             top: element.placement.y,
             scaleX: element.placement.scaleX,
@@ -968,34 +977,35 @@ export class Store {
             fill: "#ffffff",
             backgroundColor: "#0037ff",
             padding: 1,
-            isWrapping: false, // not working
-            fontFamily: 'Poppins'
-            // fontFamily: 'Comic Sans',
-            // styles: {
-            //   fontFamily: "Poppins",
-            // }
+            // isWrapping: false, // not working
+            fontFamily: element.properties.fontFamily,
+            hasControls: element.properties.hasControls ?? true,
+            // lockScalingX: !element.properties.isScalable ?? false,
+            // lockScalingY: true,
           });
-          console.log("text object is ", textObject);
+          // console.log("text object is ", textObject);
           element.fabricObject = textObject;
           canvas.add(textObject);
+          // console.log("Font Family is "+textObject.fontFamily);
           canvas.on("object:modified", function (e) {
             if (!e.target) return;
             const target = e.target;
             if (target != textObject) return;
-            const placement = element.placement;
+            const oldPlacement = element.placement;
             const newPlacement: Placement = {
-              ...placement,
-              x: target.left ?? placement.x,
-              y: target.top ?? placement.y,
-              rotation: target.angle ?? placement.rotation,
-              width: target.width ?? placement.width,
-              height: target.height ?? placement.height,
-              scaleX: target.scaleX ?? placement.scaleX,
-              scaleY: target.scaleY ?? placement.scaleY,
+              ...oldPlacement,
+              x: target.left ?? oldPlacement.x,
+              y: target.top ?? oldPlacement.y,
+              rotation: target.angle ?? oldPlacement.rotation,
+              width: target.width ?? oldPlacement.width,
+              height: target.height ?? oldPlacement.height,
+              scaleX: target.scaleX ?? oldPlacement.scaleX,
+              scaleY: target.scaleY ?? oldPlacement.scaleY,
             };
+            var placement_of_object = element.properties.hasControls ? newPlacement : oldPlacement;
             const newElement = {
               ...element,
-              placement: newPlacement,
+              placement: placement_of_object,
               properties: {
                 ...element.properties,
                 // @ts-ignore

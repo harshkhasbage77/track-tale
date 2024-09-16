@@ -8,10 +8,12 @@ type TextResourceProps = {
   fontSize: number;
   fontWeight: number;
   sampleText: string;
+  hasControls: boolean;
+  // coordinates: { x: number; y: number };
 };
 
 export const TextResource = observer(
-  ({ fontSize, fontWeight, sampleText }: TextResourceProps) => {
+  ({ fontSize, fontWeight, sampleText, hasControls }: TextResourceProps) => {
     const store = React.useContext(StoreContext);
     return (
       <div className="items-center m-[15px] flex flex-row bg-blue-600 border rounded">
@@ -31,7 +33,12 @@ export const TextResource = observer(
               text: sampleText,
               fontSize: fontSize,
               fontWeight: fontWeight,
-              // fontFamily: "Poppins",
+              fontFamily: "__Poppins_51dd11",
+              hasControls: hasControls,
+              // coordinates: {
+              //   x: coordinates.x,
+              //   y: coordinates.y,
+              // }
             })
           }
         >
