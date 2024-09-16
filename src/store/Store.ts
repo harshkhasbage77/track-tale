@@ -387,6 +387,8 @@ export class Store {
       this.setMaxTime(editorElement.timeFrame.end);
       // this.maxTime = editorElement.timeFrame.end;
       console.log("max time is ", this.maxTime);
+    } else {
+      console.log("editorElement.timeFrame.end is ", editorElement.timeFrame.end);
     }
     this.setEditorElements([...this.editorElements, editorElement]);
     this.refreshElements();
@@ -630,6 +632,7 @@ export class Store {
           fontSize: options.fontSize,
           fontWeight: options.fontWeight,
           splittedTexts: [],
+          // fontFamily: "Poppins",
         },
       },
     );
@@ -964,8 +967,15 @@ export class Store {
             lockUniScaling: true,
             fill: "#ffffff",
             backgroundColor: "#0037ff",
-            padding: 10,
+            padding: 1,
+            isWrapping: false, // not working
+            fontFamily: 'Poppins'
+            // fontFamily: 'Comic Sans',
+            // styles: {
+            //   fontFamily: "Poppins",
+            // }
           });
+          console.log("text object is ", textObject);
           element.fabricObject = textObject;
           canvas.add(textObject);
           canvas.on("object:modified", function (e) {
@@ -1002,7 +1012,7 @@ export class Store {
       }
       if (element.fabricObject) {
         element.fabricObject.on("selected", function (e) {
-          console.warn("this object is selected now");
+          console.warn("this object is selected now", element.fabricObject);
           store.setSelectedElement(element);
         });
       }

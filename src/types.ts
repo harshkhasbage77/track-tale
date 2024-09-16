@@ -9,15 +9,20 @@ export type EditorElementBase<T extends string, P> = {
   timeFrame: TimeFrame;
   properties: P;
 };
+
 export type VideoEditorElement = EditorElementBase<
   "video",
-  { src: string; elementId: string; imageObject?: fabric.Image, effect: Effect }
+  { 
+    src: string; 
+    elementId: string; 
+    imageObject?: fabric.Image, 
+    effect: Effect 
+  }
 >;
 export type ImageEditorElement = EditorElementBase<
   "image",
   { src: string; elementId: string; imageObject?: fabric.Object, effect: Effect }
 >;
-
 export type AudioEditorElement = EditorElementBase<
   "audio",
   { src: string; elementId: string }
@@ -29,6 +34,7 @@ export type TextEditorElement = EditorElementBase<
     fontSize: number;
     fontWeight: number;
     splittedTexts: fabric.Text[];
+    // fontFamily: string;
   }
 >;
 
