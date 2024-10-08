@@ -367,7 +367,8 @@ export class Store {
     if (timeFrame.end != undefined && timeFrame.end > this.maxTime) {
       timeFrame.end = this.maxTime;
     }
-    console.log("this is old editor element ", editorElement);
+    console.log("this is old editor element's timeframe: ", editorElement.timeFrame);
+    // if(editorElement.id === 1 || editorElement.id === 2){return;}
     const newEditorElement = {
       ...editorElement,
       timeFrame: {
@@ -375,7 +376,7 @@ export class Store {
         ...timeFrame,
       }
     }
-    console.log("this is new editor element ", newEditorElement);
+    console.log("this is new editor element's timeframe: ", newEditorElement.timeFrame);
     this.updateVideoElements();
     this.updateAudioElements();
     this.updateEditorElement(newEditorElement);
@@ -476,6 +477,13 @@ export class Store {
     const id = getUid();
     // console.log("video id is ", id);
     if (index < 5){
+      var start_time=0;
+      var end_time=videoDurationMs;
+      if(index===4){
+          start_time=this.maxTime-videoDurationMs;
+          end_time=this.maxTime;
+      }
+
       this.addEditorElement(
         {
           id,
@@ -491,8 +499,8 @@ export class Store {
             scaleY: 1,
           },
           timeFrame: {
-            start: 0,
-            end: videoDurationMs,
+            start: start_time,
+            end: end_time,
           },
           properties: {
             elementId: `video-${id}`,
@@ -537,64 +545,6 @@ export class Store {
     console.log("video duration is ", videoDurationMs);
     console.log("video element src is ", videoElement.src)
   }
-
-  // addVideo(index: number) {
-  //   const videoElement = document.getElementById(`video-${index}`);
-  //   console.log("video element's index is ", videoElement, index);
-  //   if (!isHtmlVideoElement(videoElement)) {
-  //     return;
-  //   }
-  
-  //   const videoDurationMs = videoElement.duration * 1000;
-  //   const aspectRatio = videoElement.videoWidth / videoElement.videoHeight;
-  //   const id = getUid();
-  
-  //   // const canvas = this.canvas;
-  //   const fabricVideo = new fabric.Image(videoElement, {
-  //     left: index < 5 ? 0 : 400 - 50 * aspectRatio,
-  //     top: index < 5 ? 0 : 175,
-  //     scaleX: this.canvasWidth / videoElement.videoWidth,
-  //     scaleY: this.canvasHeight / videoElement.videoHeight,
-  //     // id: `video-${id}`,  // Setting the id for reference
-  //   });
-  
-  //   // canvas.add(fabricVideo);
-  //   this.addEditorElement({
-  //     id,
-  //     name: `Media(video) ${index + 1}`,
-  //     type: "video",
-  //     placement: {
-  //       x: fabricVideo.left!,
-  //       y: fabricVideo.top!,
-  //       width: fabricVideo.width!,
-  //       height: fabricVideo.height!,
-  //       rotation: 0,
-  //       scaleX: fabricVideo.scaleX!,
-  //       scaleY: fabricVideo.scaleY!,
-  //     },
-  //     timeFrame: {
-  //       start: 0,
-  //       end: videoDurationMs,
-  //     },
-  //     properties: {
-  //       elementId: `video-${id}`,
-  //       src: videoElement.src,
-  //       effect: {
-  //         type: "none",
-  //       },
-  //     },
-  //   });
-  
-  //   // Ensure canvas renders the video correctly
-  //   videoElement.play();
-  //   videoElement.loop = true;  // For continuous rendering
-  
-  //   // fabric.util.requestAnimFrame(() => {
-  //   //   fabricVideo.setElement(videoElement);
-  //   //   canvas.renderAll();
-  //   // });
-  // }
-  
 
   addImage(index: number) {
     const imageElement = document.getElementById(`image-${index}`)
