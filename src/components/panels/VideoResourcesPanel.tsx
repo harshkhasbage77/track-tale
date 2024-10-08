@@ -31,19 +31,19 @@ export const VideoResourcesPanel = observer(() => {
   };
   return (
     <>
-    <div className="flex flex-col items-center">
-      <div className="text-sm px-[16px] pt-[16px] pb-[8px] font-semibold">
-        Video Files
+      <div className="flex flex-col items-center">
+        <div className="text-sm px-[16px] pt-[16px] pb-[8px] font-semibold">
+          Video Files
+        </div>
+        {store.videos.map((video, index) => {
+          return <VideoResource key={video} video={video} index={index} />;
+        })}
+        <UploadButton
+          accept="video/x-m4v,video/*,video/webm,video/quicktime,video/3gpp,video/x-msvideo,video/x-ms-wmv,video/mp4,image/gif"
+          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold text-center mx-2 py-2 px-4 rounded cursor-pointer"
+          onChange={handleFileChange} 
+        />
       </div>
-      {store.videos.map((video, index) => {
-        return <VideoResource key={video} video={video} index={index} />;
-      })}
-      <UploadButton
-        accept="video/x-m4v,video/*,video/webm,video/quicktime,video/3gpp,video/x-msvideo,video/x-ms-wmv,video/mp4,image/gif"
-        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold text-center mx-2 py-2 px-4 rounded cursor-pointer"
-        onChange={handleFileChange} 
-      />
-    </div>
     </>
   );
 });

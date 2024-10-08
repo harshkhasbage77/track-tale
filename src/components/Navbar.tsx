@@ -201,7 +201,10 @@ const Navbar = observer(() => {
                             <li><a className="block px-4 py-2 hover:bg-gray-600" href="#" onClick={saveStateToFile}>Save</a></li>
                             <li><a className="block px-4 py-2 hover:bg-gray-600" href="#">Save As...</a></li>
                             <li className="border-t my-1"></li>
-                            <li><a className="block px-4 py-2 hover:bg-gray-800" href="#">Save & Exit</a></li>
+                            <li><a className="block px-4 py-2 hover:bg-gray-800" href="#" onClick={() => {
+                                saveStateToFile();
+                                window.location.href = "/";
+                            }}>Save & Exit</a></li>
                         </ul>
                     </div>
                     <a className="" href="#">Undo</a>

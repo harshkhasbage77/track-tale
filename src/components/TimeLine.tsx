@@ -13,7 +13,8 @@ export const TimeLine = observer(() => {
       <SeekPlayer />
       <div className="relative overflow-y-auto timeline-elements custom-scrollbar h-[360px]">
         {store.editorElements.map((element) => {
-          return <TimeFrameView key={element.id} element={element} />;
+          const duration = element.timeFrame.end - element.timeFrame.start;
+          return <TimeFrameView key={element.id} element={element} duration={duration}/>;
         })}
         <div
           // className="w-[2px] bg-red-400 absolute top-0 bottom-0 z-20"

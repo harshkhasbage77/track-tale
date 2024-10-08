@@ -8,6 +8,7 @@ type ImageResourceProps = {
   image: string;
   index: number;
 };
+
 export const ImageResource = observer(
   ({ image, index }: ImageResourceProps) => {
     const store = React.useContext(StoreContext);

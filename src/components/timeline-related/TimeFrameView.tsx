@@ -5,9 +5,9 @@ import { StoreContext } from "@/store";
 import { observer } from "mobx-react";
 import DragableView from "./DragableView";
 
-export const TimeFrameView = observer((props: { element: EditorElement }) => {
+export const TimeFrameView = observer((props: { element: EditorElement, duration: number }) => {
   const store = React.useContext(StoreContext);
-  const { element } = props;
+  const { element, duration } = props;
   // const disabled = element.type === "audio";
   const disabled = false;
   // console.log("element: ", element);
@@ -53,15 +53,13 @@ export const TimeFrameView = observer((props: { element: EditorElement }) => {
         value={element.timeFrame.start}
         disabled={disabled}
         style={{
-          width: `${
-            ((element.timeFrame.end - element.timeFrame.start) /
-              store.maxTime) *
-            100
-          }%`,
+          width: `${(duration / store.maxTime) * 100}%`,
         }}
         total={store.maxTime}
         onChange={(value) => {
           const { start, end } = element.timeFrame;
+          console.log("start: ", start);
+          console.log("end: ", end);
           store.updateEditorElementTimeFrame(element, {
             start: value,
             end: value + (end - start),

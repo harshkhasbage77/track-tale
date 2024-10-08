@@ -479,7 +479,7 @@ export class Store {
       this.addEditorElement(
         {
           id,
-          name: `Media(video) ${index + 1}`,
+          name: `Media(video) ${index + 1} ${videoElement.localName}`,
           type: "video",
           placement: {
             x: 0,
@@ -532,7 +532,69 @@ export class Store {
         },
       );
     }
+
+    console.log("video element is ", videoElement);
+    console.log("video duration is ", videoDurationMs);
+    console.log("video element src is ", videoElement.src)
   }
+
+  // addVideo(index: number) {
+  //   const videoElement = document.getElementById(`video-${index}`);
+  //   console.log("video element's index is ", videoElement, index);
+  //   if (!isHtmlVideoElement(videoElement)) {
+  //     return;
+  //   }
+  
+  //   const videoDurationMs = videoElement.duration * 1000;
+  //   const aspectRatio = videoElement.videoWidth / videoElement.videoHeight;
+  //   const id = getUid();
+  
+  //   // const canvas = this.canvas;
+  //   const fabricVideo = new fabric.Image(videoElement, {
+  //     left: index < 5 ? 0 : 400 - 50 * aspectRatio,
+  //     top: index < 5 ? 0 : 175,
+  //     scaleX: this.canvasWidth / videoElement.videoWidth,
+  //     scaleY: this.canvasHeight / videoElement.videoHeight,
+  //     // id: `video-${id}`,  // Setting the id for reference
+  //   });
+  
+  //   // canvas.add(fabricVideo);
+  //   this.addEditorElement({
+  //     id,
+  //     name: `Media(video) ${index + 1}`,
+  //     type: "video",
+  //     placement: {
+  //       x: fabricVideo.left!,
+  //       y: fabricVideo.top!,
+  //       width: fabricVideo.width!,
+  //       height: fabricVideo.height!,
+  //       rotation: 0,
+  //       scaleX: fabricVideo.scaleX!,
+  //       scaleY: fabricVideo.scaleY!,
+  //     },
+  //     timeFrame: {
+  //       start: 0,
+  //       end: videoDurationMs,
+  //     },
+  //     properties: {
+  //       elementId: `video-${id}`,
+  //       src: videoElement.src,
+  //       effect: {
+  //         type: "none",
+  //       },
+  //     },
+  //   });
+  
+  //   // Ensure canvas renders the video correctly
+  //   videoElement.play();
+  //   videoElement.loop = true;  // For continuous rendering
+  
+  //   // fabric.util.requestAnimFrame(() => {
+  //   //   fabricVideo.setElement(videoElement);
+  //   //   canvas.renderAll();
+  //   // });
+  // }
+  
 
   addImage(index: number) {
     const imageElement = document.getElementById(`image-${index}`)
@@ -623,8 +685,10 @@ export class Store {
         name: `Text ${index + 1}: ${options.text}`,
         type: "text",
         placement: {
-          x: options.coordinates?.x ?? (this.canvasWidth * 7 / 12),
-          y: options.coordinates?.y?? (this.canvasHeight * 1 / 3),
+          // x: options.coordinates?.x ?? (this.canvasWidth * 7 / 12),
+          // y: options.coordinates?.y?? (this.canvasHeight * 1 / 3),
+          x: 0,
+          y: 0,
           width: 150,
           height: 80,
           rotation: 0,
@@ -888,12 +952,17 @@ export class Store {
           break;
         }
         case "image": {
-          if (document.getElementById(element.properties.elementId) == null)
+          if (document.getElementById(element.properties.elementId) == null){
+            console.log("element id is null:", element.properties.elementId);
             continue;
+          }
           const imageElement = document.getElementById(
             element.properties.elementId
           );
-          if (!isHtmlImageElement(imageElement)) continue;
+          if (!isHtmlImageElement(imageElement)) {
+            console.log("element is not image element");
+            continue;
+          }
           // const filters = [];
           // if (element.properties.effect?.type === "blackAndWhite") {
           //   filters.push(new fabric.Image.filters.Grayscale());
@@ -930,6 +999,12 @@ export class Store {
           };
           imageObject.scaleX = toScale.x * element.placement.scaleX;
           imageObject.scaleY = toScale.y * element.placement.scaleY;
+          // imageObject.shadow = new fabric.Shadow({
+          //   color: "rgba(255,0,0,0.5)",
+          //   blur: 10,
+          //   offsetX: 10,
+          //   offsetY: 10,
+          // });
           canvas.add(imageObject);
           canvas.on("object:modified", function (e) {
             if (!e.target) return;

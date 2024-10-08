@@ -64,6 +64,44 @@ export const Editor = observer(() => {
 
   }, []);
 
+  // THERE WAS THIS ERROR POPPING BCOZ OF : 
+  // Since you're working with Next.js, remember that it uses server-side rendering (SSR) by default, and some DOM elements like canvas may not be available during the initial server-side rendering phase. Use Next.js’s dynamic imports or a check to make sure you are in a browser environment.
+
+  //  THE ERROR WAS:
+  // 1 of 1 unhandled error
+  // Next.js (13.4.9) is outdated (learn more)
+
+  // Unhandled Runtime Error
+  // TypeError: Cannot read properties of undefined (reading 'getRetinaScaling')
+
+  // Source
+  // src/components/Editor.tsx (56:13) @ renderAll
+
+  //   54 | store.setCanvas(canvas);
+  //   55 | fabric.util.requestAnimFrame(function render() {
+  // > 56 |   canvas.renderAll();
+  //      |         ^
+  //   57 |   fabric.util.requestAnimFrame(render);
+  //   58 | });
+  //   59 | 
+
+  // SO FOR RESOLVING THIS ISSUE : (BUT I THINK IT IS NOT WORKING, IT IS INCREASING PROBLEM)
+  // You can use the following check to ensure your canvas is only rendered on the client-side: 
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const canvas = new fabric.Canvas('canvas'); 
+  //     store.setCanvas(canvas);
+  
+  //     fabric.util.requestAnimFrame(function render() {
+  //       if (canvas) {
+  //         canvas.renderAll();
+  //       }
+  //       fabric.util.requestAnimFrame(render);
+  //     });
+  //   }
+  // }, []);
+  
+
   const handleCanvasContainerClick = (event: React.MouseEvent) => {
     console.log("canvas container clicked");
     if(event.target instanceof HTMLCanvasElement){
