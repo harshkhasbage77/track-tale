@@ -8,20 +8,37 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
     const [canvasSize, setCanvasSize] = useState({ width: 50, height: props.height });
 
     useEffect(() => {
+        console.log("Canvas size updated:", canvasSize);
+      }, [canvasSize]);
+
+    useEffect(() => {
+        console.log("this is max " + max);
         // update canvas size based on container size
         const handleResize = () => {
             if (ref.current) {
                 // console.log("this is clientWidth " + ref.current.parentElement?.clientWidth);
+                
+                // DYNAMIC MAX TIME 
+                // setCanvasSize({
+                //     width: (ref.current.parentElement?.clientWidth ?? 50) - 8,
+                //     height: ref.current.parentElement?.clientHeight ?? props.height
+                // });
+
+                // STANDARD DEFINED - 1 SECOND IS 10 PIXELS
+                console.log("this is max " + max);
                 setCanvasSize({
-                    width: (ref.current.parentElement?.clientWidth ?? 50) - 8,
+                    width: (max / 1000 * 10 ?? 50) - 8,
                     height: ref.current.parentElement?.clientHeight ?? props.height
                 });
+                console.log("this is max " + max);
+
                 // console.log("this is canvasSize.width " + canvasSize.width);
                 // setCanvasSize({width: `${canvasSize.width} - 50`, height: canvasSize.height});
                 // console.log("this is canvasSize.width " + canvasSize.width);
             }
         };
         window.addEventListener("resize", handleResize);
+        console.log("handle resize is called");
         handleResize();
         return () => {
             window.removeEventListener("resize", handleResize);
@@ -32,6 +49,7 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
         if (ref.current) {
             const canvas = ref.current;
             canvas.width = canvasSize.width;
+            console.log("this is canvas.width " + canvas.width);
             canvas.height = canvasSize.height;
             const ctx = canvas.getContext("2d");
             if (ctx) {
@@ -41,9 +59,12 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
                     ctx.strokeStyle = marking.color;
                     ctx.lineWidth = marking.width;
                     ctx.beginPath();
+                    // for (let i = 0; i < max; i += 1) {
                     for (let i = 0; i < max; i += marking.interval) {
                         ctx.moveTo(i / max * canvas.width, 0);
                         ctx.lineTo(i / max * canvas.width, marking.size);
+                        // ctx.moveTo(i * marking.interval, 0);
+                        // ctx.lineTo(i * marking.interval, marking.size);
                     }
                     ctx.stroke();
                 });
@@ -62,7 +83,7 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
     };
     
     return <div
-        className="relative w-full mx-1"
+        className="relative w-full mx-1 overflow-x-auto"
         onMouseDown={(e) => {
             refIsMouseDown.current = true;
             updateFromMouseEvent(e);
@@ -78,10 +99,13 @@ export const ScaleRangeInput: React.FC<ScaleRangeInputProps> = (props) => {
         onMouseLeave={(e) => {
             refIsMouseDown.current = false;
         }}
+        style={{scrollbarWidth: "none"}}
     >
         <canvas
             height={props.height}
-            ref={ref}></canvas>
+            ref={ref}
+        >
+        </canvas>
         <div
             className="rounded-full bg-black w-[4px] absolute top-0 left-0"
             style={{

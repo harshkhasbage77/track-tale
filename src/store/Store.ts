@@ -38,7 +38,7 @@ export class Store {
     this.audios = [];
     this.editorElements = [];
     this.backgroundColor = '#0037ff';
-    this.maxTime = 60 * 1000;
+    this.maxTime = 3 * 60 * 1000;
     this.playing = false;
     this.currentKeyFrame = 0;
     this.selectedElement = null;

@@ -27,6 +27,7 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
       className={`relative width-full h-[60px] my-2 rounded-xl hover:shadow-md ${
         isSelected ? "border-2 border-indigo-600 bg-slate-200" : ""
       }`}
+      style={{width: `${store.maxTime/1000*10}px`}}
     >
       <DragableView
         className="z-10"
