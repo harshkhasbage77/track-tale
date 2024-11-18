@@ -33,18 +33,18 @@ export class Store {
 
   constructor() {
     this.canvas = null;
+    this.backgroundColor = '#0037ff';
+    this.audios = [];
     this.videos = [];
     this.images = [];
-    this.audios = [];
     this.editorElements = [];
-    this.backgroundColor = '#0037ff';
-    this.maxTime = 3 * 60 * 1000;
-    this.playing = false;
-    this.currentKeyFrame = 0;
     this.selectedElement = null;
-    this.fps = 60;
+    this.maxTime = 3 * 60 * 1000;
     this.animations = [];
     this.animationTimeLine = anime.timeline();
+    this.playing = false;
+    this.currentKeyFrame = 0;
+    this.fps = 60;
     this.selectedMenuOption = 'Video';
     this.selectedVideoFormat = 'mp4';
 
@@ -487,7 +487,7 @@ export class Store {
       this.addEditorElement(
         {
           id,
-          name: `Media(video) ${index + 1} ${videoElement.localName}`,
+          name: `Media(video) ${index + 1} ${videoElement.localName} ${videoElement.namespaceURI}`,
           type: "video",
           placement: {
             x: 0,

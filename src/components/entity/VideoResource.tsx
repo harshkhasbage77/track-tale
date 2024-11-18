@@ -36,7 +36,9 @@ export const VideoResource = observer(
     }, [index, store]); 
 
     return (
-      <div className="rounded-lg overflow-hidden items-center bg-slate-800 m-[15px] flex flex-col relative">
+      <div className="rounded-lg overflow-hidden items-center 
+      bg-slate-800 
+      m-[15px] flex flex-col relative">
         <div className="bg-[rgba(0,0,0,.25)] text-white py-1 absolute text-base top-2 right-2">
           {formatedVideoLength}
         </div>

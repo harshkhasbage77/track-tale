@@ -9,7 +9,7 @@ export const TimeLine = observer(() => {
   const store = React.useContext(StoreContext);
   const percentOfCurrentTime = (store.currentTimeInMs / store.maxTime) * 100;
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-[#E6EAFD]">
       <SeekPlayer />
       <div 
         className="relative overflow-x-scroll overflow-y-auto timeline-elements h-[360px]"
@@ -17,7 +17,10 @@ export const TimeLine = observer(() => {
       > {/* custom-scrollbar */}
         {store.editorElements.map((element) => {
           const duration = element.timeFrame.end - element.timeFrame.start;
-          return <TimeFrameView key={element.id} element={element} duration={duration}/>;
+          return <>
+                  <TimeFrameView key={element.id} element={element} duration={duration}/>
+                  {/* <hr/> */}
+                 </>
         })}
         <div
           // className="w-[2px] bg-red-400 absolute top-0 bottom-0 z-20"

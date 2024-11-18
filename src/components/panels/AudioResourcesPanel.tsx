@@ -4,13 +4,53 @@ import { StoreContext } from "@/store";
 import { observer } from "mobx-react";
 import { AudioResource } from "../entity/AudioResource";
 import { UploadButton } from "../shared/UploadButton";
+import { uploadMedia } from "@/utils/uploadMedia";
 
 export const AudioResourcesPanel = observer(() => {
   const store = React.useContext(StoreContext);
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    store.addAudioResource(URL.createObjectURL(file));
+    
+    // const formData = new FormData();
+    // formData.append("file", file);
+    
+    // fetch("/api/upload", {
+    //   method: "POST",
+    //   body: formData,
+    // })
+    // .then((response) => {
+    //   if (!response.ok) {
+    //     throw new Error("Failed to upload file");
+    //   }
+    //   return response.json();
+    // })
+    // .then((data) => console.log("Upload successful:", data))
+    // .catch((error) => console.error("Error:", error));
+
+    try {
+      const mediaURL = await uploadMedia(file);
+      console.log("Upload successful:", mediaURL);
+  
+        const audioElement = document.createElement("audio");
+        audioElement.src = mediaURL;
+  
+        audioElement.onloadedmetadata = () => {
+          const audioDuration = audioElement.duration;
+          if (audioDuration <= 600) { // 10 MIN LIMIT
+            console.log("Adding audio to store");
+            store.addAudioResource(mediaURL);
+          } else {
+            alert("Only audios with a length of 10 minutes or less are accepted.");
+          }
+        };
+      
+    } catch (error) {
+      console.error("Failed to handle file:", error);
+    }
+    
+    // store.addAudioResource(URL.createObjectURL(file));
+    
   };
   return (
     <>

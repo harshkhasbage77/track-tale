@@ -4,13 +4,53 @@ import { StoreContext } from "@/store";
 import { observer } from "mobx-react";
 import { ImageResource } from "../entity/ImageResource";
 import { UploadButton } from "../shared/UploadButton";
+import { uploadMedia } from "@/utils/uploadMedia";
 
 export const ImageResourcesPanel = observer(() => {
   const store = React.useContext(StoreContext);
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to upload file");
+      }
+      return response.json();
+    })
+    .then((data) => console.log("Upload successful:", data))
+    .catch((error) => console.error("Error:", error));
+    
     store.addImageResource(URL.createObjectURL(file));
+    
+    // try {
+    //   const mediaURL = await uploadMedia(file);
+    //   console.log("Upload successful:", mediaURL);
+  
+    //     const imageElement = document.createElement("IMG");
+    //     imageElement.src = mediaURL;
+  
+    //     videoElement.onloadedmetadata = () => {
+    //       const videoDuration = videoElement.duration;
+    //       if (videoDuration <= 600) { // 10 MIN LIMIT
+    //         console.log("Adding video to store");
+    //         store.addVideoResource(mediaURL);
+    //       } else {
+    //         alert("Only videos with a length of 10 minutes or less are accepted.");
+    //       }
+    //     };
+      
+    // } catch (error) {
+    //   console.error("Failed to handle file:", error);
+    // }
+
   };
   return (
     <>

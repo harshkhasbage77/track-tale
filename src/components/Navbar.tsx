@@ -185,7 +185,10 @@ const Navbar = observer(() => {
 
 
     return (
-        <nav className="bg-gray-800 px-4 shadow text-white">
+        // bg-[#F3F3F3]
+        <nav className="
+        bg-gray-800 
+        px-4 shadow text-white">
             <div className="container mx-auto flex justify-between items-center">
                 <div className="flex items-center space-x-4">
                     <a href="/" className="flex items-center text-slate-400">

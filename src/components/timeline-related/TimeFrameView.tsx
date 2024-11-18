@@ -24,8 +24,11 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
         store.setSelectedElement(element);
       }}
       key={element.id}
-      className={`relative width-full h-[60px] my-2 rounded-xl hover:shadow-md ${
-        isSelected ? "border-2 border-indigo-600 bg-slate-200" : ""
+      //  bg-cyan-600 
+      className={`relative width-full h-[60px] my-2 rounded-xl hover:shadow-md
+        bg-[#2222227D]
+         ${
+        isSelected ? "border-2 border-indigo-600 bg-slate-400" : ""
       }`}
       style={{width: `${store.maxTime/1000*10}px`}}
     >

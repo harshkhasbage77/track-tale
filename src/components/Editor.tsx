@@ -117,7 +117,6 @@ export const Editor = observer(() => {
   //     <Navbar />
   //   </div>
   //   <div className="grid grid-rows-[500px_1fr_20px] grid-cols-[92px_300px_1fr_250px] h-[100svh]">
-
   //     <div className="row-span-2 flex flex-col bg-slate-900">
   //       <Menu />
   //     </div>
@@ -152,7 +151,10 @@ export const Editor = observer(() => {
         <Menu />
       </div>
       {/* <div className="row-start-2 col-start-2 row-span-2 flex flex-col scroll-1-container "> */}
-      <div className="row-start-2 col-start-2 row-span-2 flex flex-col bg-sky-800 ">
+      {/* bg-[#D9D9D9] */}
+      <div className="row-start-2 col-start-2 row-span-2 flex flex-col 
+      bg-sky-800 
+      ">
         <Resources />
       </div>
       <div id="grid-canvas-container" className="col-start-3 row-start-2 bg-slate-100 flex justify-center items-center" onClick={handleCanvasContainerClick}>
