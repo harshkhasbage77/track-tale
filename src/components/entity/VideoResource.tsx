@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { StoreContext } from "@/store";
-import { formatTimeToMinSec } from "@/utils";
+import { formatTimeToMinSec, isHtmlVideoElement } from "@/utils";
 import { observer } from "mobx-react";
 import { MdAdd, MdDelete } from "react-icons/md";
 
@@ -17,23 +17,31 @@ export const VideoResource = observer(
     const [formatedVideoLength, setFormatedVideoLength] =
       React.useState("00:00");
 
-    // // Automatically add INTRO and OUTRO videos to canvas if index is 0 or 4
-    // React.useEffect(() => {
-    //   if (index === 0 || index === 4) {
-    //     store.addVideo(index);
-    //   }
-    // }, [index, store]);
-
     React.useEffect(() => {
       const timeoutId = setTimeout(() => {
         if (index === 0 || index === 4) {
-          store.addVideo(index); // Add INTRO or OUTRO video to canvas
+          // Check if the video already exists in editorElements
+          const videoElement = document.getElementById(`video-${index}`);
+          if (!videoElement || !isHtmlVideoElement(videoElement)) {
+            return;
+          }
+    
+          const videoSrc = videoElement.src;
+          const videoExists = store.editorElements.some(
+            (element) => element.type === "video" && element.properties.src === videoSrc
+          );
+    
+          if (!videoExists) {
+            store.addVideo(index); // Add INTRO or OUTRO video to canvas
+          } else {
+            console.log(`Video with src ${videoSrc} already exists.`);
+          }
         }
       }, 3000); // Delay of 3 seconds
     
       // Cleanup function to clear the timeout if the component unmounts
       return () => clearTimeout(timeoutId);
-    }, [index, store]); 
+    }, [index, store.editorElements]);
 
     return (
       <div className="rounded-lg overflow-hidden items-center 

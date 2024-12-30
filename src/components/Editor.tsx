@@ -139,6 +139,7 @@ export const Editor = observer(() => {
   //   </>
   // );
 
+
   return (
     <>
     <div className="grid grid-rows-[48px_1fr_440px] grid-cols-[92px_300px_1fr_250px] h-full">
@@ -153,7 +154,7 @@ export const Editor = observer(() => {
       {/* <div className="row-start-2 col-start-2 row-span-2 flex flex-col scroll-1-container "> */}
       {/* bg-[#D9D9D9] */}
       <div className="row-start-2 col-start-2 row-span-2 flex flex-col 
-      bg-sky-800 
+      bg-white-800 
       ">
         <Resources />
       </div>

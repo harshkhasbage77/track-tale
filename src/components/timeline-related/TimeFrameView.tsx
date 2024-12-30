@@ -78,9 +78,13 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
         // }}
       >
         <div
-          className={`${bgColorOnSelected} h-full w-full text-white text-xs min-w-[0px] px-2 leading-[25px] rounded-lg select-none border-l-8 border-r-8 border-double border-l-yellow-500 border-r-yellow-500`}
+          className={`${bgColorOnSelected} h-full w-full text-white text-xs min-w-[0px]  leading-[25px] rounded-lg select-none border-l-8 border-r-8 border-double border-l-yellow-500 border-r-yellow-500`}
         >
-          {element.name}
+          <p className="truncate">
+            <span className="z-10 p-2 bg-slate-300/30 font-bold">
+              {element.name}
+            </span>
+          </p>
         </div>
       </DragableView>
       <DragableView

@@ -40,3 +40,6 @@ next-env.d.ts
 
 # save store
 /sessions
+
+# files inside uploads folder
+/public/uploads/*
