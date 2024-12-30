@@ -210,12 +210,12 @@ const Navbar = observer(() => {
                             }}>Save & Exit</a></li>
                         </ul>
                     </div>
-                    <a className="" href="#">Undo</a>
+                    {/* <a className="" href="#">Undo</a>
                     <a className="" href="#">Redo</a>
                     <a className="flex items-center" href="#">
                         History
                         <FaHistory className="ml-2"/>
-                    </a>
+                    </a> */}
                 </div>
                 <div className="flex items-center mx-auto">
                     <div className="flex items-center border-b-2 rounded">
