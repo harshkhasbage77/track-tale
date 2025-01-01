@@ -88,6 +88,7 @@ export const SeekPlayer = observer((_props: SeekPlayerProps) => {
         <div className="w-[1px] h-[25px] bg-slate-300 mx-[10px]"></div>
         <span className="font-mono">{formattedMaxTime}</span>
       </div>
+
       <ScaleRangeInput
         max={store.maxTime}
         value={store.currentTimeInMs}
@@ -99,6 +100,7 @@ export const SeekPlayer = observer((_props: SeekPlayerProps) => {
         markings={MARKINGS}
         backgroundColor="white"
       />
+      
     </div>
   );
 });

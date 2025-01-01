@@ -8,15 +8,45 @@ import DragableView from "./DragableView";
 export const TimeFrameView = observer((props: { element: EditorElement, duration: number }) => {
   const store = React.useContext(StoreContext);
   const { element, duration } = props;
-  // const disabled = element.type === "audio";
-  const disabled = false;
+
+  var disabled = false;
+  const disabled_something_related_to_audio = false;
   // console.log("element: ", element);
   // console.log("element.type: ", element.type);
   // console.log("disabled: ", disabled);
   const isSelected = store.selectedElement?.id === element.id;
   const bgColorOnSelected = isSelected ? "bg-slate-800" : "bg-slate-600";
-  const disabledCursor = disabled ? "cursor-no-drop" : "cursor-ew-resize";
   const timeFrameElementHeight = 60;
+  
+  // console.log("elemment.name: ", element.name);
+  
+  const isIntro = element.name === "Media(video) 1 video http://www.w3.org/1999/xhtml";
+  const isOutro = element.name === "Media(video) 5 video http://www.w3.org/1999/xhtml";
+  
+  console.log("isIntro: ", isIntro);
+  console.log("isOutro: ", isOutro);
+  
+  const disabled_movement_of_intro_outro = isIntro || isOutro;
+  // console.error("disabled_movement_of_intro_outro: ", disabled_movement_of_intro_outro);
+  
+  
+  if(disabled_movement_of_intro_outro) {
+    disabled = true;
+    // console.error("disabled_movement_of_intro_outro: ", disabled_movement_of_intro_outro);
+  }
+
+  const disabledCursor = disabled ? "cursor-no-drop" : "cursor-ew-resize";
+
+  // For outro, keep its position synced to the end of the timeline
+  React.useEffect(() => {
+    if (isOutro) {
+      const outroDuration = element.timeFrame.end - element.timeFrame.start;
+      store.updateEditorElementTimeFrame(element, {
+        start: store.maxTime - outroDuration,
+        end: store.maxTime,
+      });
+    }
+  }, [store.maxTime]);
 
   return (
     <div
@@ -25,7 +55,7 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
       }}
       key={element.id}
       //  bg-cyan-600 
-      className={`relative width-full h-[60px] my-2 rounded-xl hover:shadow-md
+      className={`relative width-full h-[60px] my-2  
         bg-[#2222227D]
          ${
         isSelected ? "border-2 border-indigo-600 bg-slate-400" : ""
@@ -53,7 +83,7 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
       </DragableView>
 
       <DragableView
-        className={`${disabled ? "cursor-no-drop" : "cursor-col-resize"}`}
+        // className={`${disabled ? "cursor-no-drop" : "cursor-col-resize"}`}
         value={element.timeFrame.start}
         disabled={disabled}
         style={{
@@ -77,8 +107,20 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
         //   });
         // }}
       >
+        {/* <div
+          className={`${bgColorOnSelected} h-full w-full text-white text-xs min-w-[0px]  leading-[25px] rounded-lg select-none border-l-8 border-r-8 border-double border-l-yellow-500 border-r-yellow-500 ${disabledCursor}
+           hover:border-solid hover:border-2 hover:border-yellow-500`}
+        >
+          <p className="truncate">
+            <span className="z-10 p-2 bg-slate-300/30 font-bold">
+              {element.name}
+            </span>
+          </p>
+        </div> */}
         <div
-          className={`${bgColorOnSelected} h-full w-full text-white text-xs min-w-[0px]  leading-[25px] rounded-lg select-none border-l-8 border-r-8 border-double border-l-yellow-500 border-r-yellow-500`}
+          className={`h-full w-full text-white text-xs min-w-[0px] leading-[25px] rounded-lg select-none 
+            border-double border-l-8 border-r-8 border-l-yellow-500 border-r-yellow-500 ${bgColorOnSelected} ${disabledCursor}
+            hover:border-solid hover:border-2 hover:border-yellow-500`}
         >
           <p className="truncate">
             <span className="z-10 p-2 bg-slate-300/30 font-bold">
@@ -87,6 +129,7 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
           </p>
         </div>
       </DragableView>
+      
       <DragableView
         className="z-10"
         disabled={disabled}

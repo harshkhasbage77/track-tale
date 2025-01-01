@@ -10,7 +10,8 @@ function DragableView(props: {
   total: number;
   onChange: (value: number) => void;
   // onExceedMaxTime?: (value: number) => void;
-}) {
+}) 
+{
   const ref = useRef<{
     div: HTMLDivElement | null;
     isDragging: boolean;
@@ -20,6 +21,7 @@ function DragableView(props: {
     isDragging: false,
     initialMouseX: 0,
   });
+
   const { current: data } = ref;
   function calculateNewValue(mouseX: number): number {
     if (!data.div) return 0;
@@ -33,10 +35,14 @@ function DragableView(props: {
 
   const handleMouseDown: MouseEventHandler<HTMLDivElement> = (event) => {
     if (!data.div) return;
-    if (props.disabled) return;
+    if (props.disabled) {
+      console.log("dragging is disabled");
+      return;
+    }
     data.isDragging = true;
     data.initialMouseX = event.clientX;
   };
+
   const handleMouseMove: MouseEventHandler<HTMLDivElement> = (event) => {
     if (!data.div) return;
     if (!data.isDragging) return;
