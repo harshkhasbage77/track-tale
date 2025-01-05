@@ -22,18 +22,19 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
   
   const isIntro = element.name === "Media(video) 1 video http://www.w3.org/1999/xhtml";
   const isOutro = element.name === "Media(video) 5 video http://www.w3.org/1999/xhtml";
-  
-  console.log("isIntro: ", isIntro);
-  console.log("isOutro: ", isOutro);
+
+  // console.log("isIntro: ", isIntro);
+  // console.log("isOutro: ", isOutro);
   
   const disabled_movement_of_intro_outro = isIntro || isOutro;
   // console.error("disabled_movement_of_intro_outro: ", disabled_movement_of_intro_outro);
-  
   
   if(disabled_movement_of_intro_outro) {
     disabled = true;
     // console.error("disabled_movement_of_intro_outro: ", disabled_movement_of_intro_outro);
   }
+
+
 
   const disabledCursor = disabled ? "cursor-no-drop" : "cursor-ew-resize";
 
@@ -68,10 +69,19 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
         total={store.maxTime}
         disabled={disabled}
         onChange={(value) => {
-          console.log("I have changed using draggable view, value: ", value);
-          store.updateEditorElementTimeFrame(element, {
-            start: value,
-          });
+          // if(isOutro) {
+          //   console.log("Here value is: ", value);
+          //   console.log("updating max time to: ", value + (element.timeFrame.end - element.timeFrame.start));
+          //   store.setMaxTime(value + (element.timeFrame.end - element.timeFrame.start));
+          //   // store.updateEditorElementTimeFrame(element, {
+          //   //   start: store.maxTime - (element.timeFrame.end - element.timeFrame.start),
+          //   // });
+          // }
+            console.log("I have changed using draggable view, value: ", value);
+            store.updateEditorElementTimeFrame(element, {
+              start: value,
+            });
+          
         }}
       >
         <div
@@ -92,8 +102,8 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
         total={store.maxTime}
         onChange={(value) => {
           const { start, end } = element.timeFrame;
-          console.log("start: ", start);
-          console.log("end: ", end);
+          // console.log("start: ", start);
+          // console.log("end: ", end);
           store.updateEditorElementTimeFrame(element, {
             start: value,
             end: value + (end - start),

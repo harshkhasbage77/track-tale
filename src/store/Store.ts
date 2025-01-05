@@ -328,13 +328,14 @@ export class Store {
         {
           this.canvas.setActiveObject(selectedElement.fabricObject);
           console.warn("this element is set active " + selectedElement.fabricObject)
+          console.error(selectedElement.id)
         }
       else
         this.canvas.discardActiveObject();
     }
   }
   updateSelectedElement() {
-    console.error("now updating selected element")
+    // console.error("now updating selected element")
     this.selectedElement = this.editorElements.find((element) => element.id === this.selectedElement?.id) ?? null;
   }
 
@@ -383,7 +384,6 @@ export class Store {
     this.refreshAnimations();
   }
 
-
   addEditorElement(editorElement: EditorElement) {
     if(editorElement.timeFrame.end > this.maxTime) {
       this.setMaxTime(editorElement.timeFrame.end);
@@ -402,6 +402,30 @@ export class Store {
       (editorElement) => editorElement.id !== id
     ));
     this.refreshElements();
+  }
+
+  cutEditorElement(editorElement: EditorElement, time: number) {
+    console.log("cutting editor element");
+    this.removeEditorElement(editorElement.id);
+    const newEditorElementFirstHalf = {
+      ...editorElement,
+      timeFrame: {
+        start: editorElement.timeFrame.start,
+        end: time,
+      }
+    }
+    this.addEditorElement(newEditorElementFirstHalf);
+    console.log("element's type is ", editorElement.type);
+    const newEditorElementSecondHalf = {
+      ...editorElement,
+      timeFrame: {
+        start: time,
+        end: editorElement.timeFrame.end,
+      },
+      id: getUid(),
+    }
+    this.addEditorElement(newEditorElementSecondHalf);
+
   }
 
   setMaxTime(maxTime: number) {

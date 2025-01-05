@@ -10,7 +10,9 @@ import {
   MdTitle,
   MdAudiotrack,
   MdOutlineFormatColorFill,
+  MdContentCut,
   MdMovieFilter,
+  MdDelete,
 } from "react-icons/md";
 import { Store } from "@/store/Store";
 
@@ -48,6 +50,57 @@ export const Menu = observer(() => {
           </li>
         );
       })}
+
+      <hr/>
+
+      <li
+        className="flex flex-col items-center p-4 rounded hover:bg-slate-600 cursor-pointer"
+        >
+          <button
+            onClick={() => {
+              console.log("Cut")
+              console.log("store.selectedElement: ", store.selectedElement)
+              console.log("store.selectedElement?.id: ", store.selectedElement?.id)
+              console.log("store.selectedElement?.name: ", store.selectedElement?.name)
+              console.log("current time: ", store.currentTimeInMs)
+              if(store.selectedElement){
+                store.cutEditorElement(store.selectedElement, store.currentTimeInMs)
+              }
+            }}
+            className={`flex flex-col items-center`}
+          >
+
+            <MdContentCut size="25" className="w-4 h-4 m-2" />
+            <div
+              className={`text-sm hover:text-white text-slate-300`}
+              >
+                Cut
+              </div>
+          
+          </button>
+        </li>
+
+        <li 
+          className="flex flex-col items-center p-4 rounded hover:bg-slate-600 cursor-pointer"
+          >
+          <button
+            onClick={() => {
+              console.log("Delete")
+              if(store.selectedElement){
+                store.removeEditorElement(store.selectedElement?.id)
+              }
+            }}
+            className={`flex flex-col items-center`}
+          >
+            <MdDelete size="25" className="w-4 h-4 m-2" />
+            <div
+              className={`text-sm hover:text-white text-slate-300`}
+              >
+                Delete
+              </div>
+          </button>
+        </li>
+
     </ul>
   );
 });
