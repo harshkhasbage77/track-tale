@@ -16,62 +16,58 @@ export const VideoResourcesPanel = observer(() => {
       return;
     }
 
-    try {
-      const mediaURL = await uploadMedia(file);
-      console.log("Upload successful:", mediaURL);
+    // RIGHT WAY
+    // try {
+    //   const mediaURL = await uploadMedia(file);
+    //   console.log("Upload successful:", mediaURL);
   
-        const videoElement = document.createElement("video");
-        videoElement.src = mediaURL;
+    //     const videoElement = document.createElement("video");
+    //     videoElement.src = mediaURL;
   
-        videoElement.onloadedmetadata = () => {
-          const videoDuration = videoElement.duration;
-          if (videoDuration <= 600) { // 10 MIN LIMIT
-            console.log("Adding video to store");
-            store.addVideoResource(mediaURL);
-          } else {
-            alert("Only videos with a length of 10 minutes or less are accepted.");
-          }
-        };
+    //     videoElement.onloadedmetadata = () => {
+    //       const videoDuration = videoElement.duration;
+    //       if (videoDuration <= 600) { // 10 MIN LIMIT
+    //         console.log("Adding video to store");
+    //         store.addVideoResource(mediaURL);
+    //       } else {
+    //         alert("Only videos with a length of 10 minutes or less are accepted.");
+    //       }
+    //     };
       
-    } catch (error) {
-      console.error("Failed to handle file:", error);
-    }
+    // } catch (error) {
+    //   console.error("Failed to handle file:", error);
+    // }
 
-    // const videoFileName = file.name;
-    // console.log("videoName: "+ videoFileName);
-    // const videoURL = URL.createObjectURL(file);
-    // const videoElement = document.createElement('video');
-    // videoElement.src = videoURL;
-    // console.log('videoURL: ', videoURL);
-    // console.log("i m executed");
+    // TEMPORARY WAY FOR DINESH
+    const videoURL = URL.createObjectURL(file);
+    const videoElement = document.createElement('video');
+    videoElement.src = videoURL;
 
-    // videoElement.onloadedmetadata = () => {
-    //   const videoDuration = videoElement.duration;
-    //   console.log('videoDuration:', videoDuration);
-    //   if (videoDuration <= 600) { // 600 seconds = 10 minutes
-    //     console.log("me hu yaha")
-    //     store.addVideoResource(videoURL);
-    //   } else {
-    //     alert('Only videos with a length of 10 minutes or less are accepted.');
-    //     URL.revokeObjectURL(videoURL);
-    //   }
-    // };
+    videoElement.onloadedmetadata = () => {
+      const videoDuration = videoElement.duration;
+      if (videoDuration <= 600) { // 600 seconds = 10 minutes
+        store.addVideoResource(videoURL);
+      } else {
+        alert('Only videos with a length of 10 minutes or less are accepted.');
+        URL.revokeObjectURL(videoURL);
+      }
+    };
 
-    // const formData = new FormData();
-    // formData.append("file", file);
+    const formData = new FormData();
+    formData.append("file", file);
 
-    // fetch("/api/upload", {
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   .then((response) => {
-    //     if (!response.ok) {
-    //       throw new Error("Failed to upload file");
-    //     }
-    //     return response.json();
-    //   })
-    //   .then((data) => console.log("Upload successful:", data))
-    //   .catch((error) => console.error("Error:", error));
+    fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to upload file");
+        }
+        return response.json();
+      })
+      .then((data) => console.log("Upload successful:", data))
+      .catch((error) => console.error("Error:", error));
     
     
   };
