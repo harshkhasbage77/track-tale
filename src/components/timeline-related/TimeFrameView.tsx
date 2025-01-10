@@ -11,27 +11,18 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
 
   var disabled = false;
   const disabled_something_related_to_audio = false;
-  // console.log("element: ", element);
-  // console.log("element.type: ", element.type);
-  // console.log("disabled: ", disabled);
   const isSelected = store.selectedElement?.id === element.id;
   const bgColorOnSelected = isSelected ? "bg-slate-800" : "bg-slate-600";
   const timeFrameElementHeight = 60;
   
-  // console.log("elemment.name: ", element.name);
   
   const isIntro = element.name === "Media(video) 1 video http://www.w3.org/1999/xhtml";
   const isOutro = element.name === "Media(video) 5 video http://www.w3.org/1999/xhtml";
 
-  // console.log("isIntro: ", isIntro);
-  // console.log("isOutro: ", isOutro);
-  
   const disabled_movement_of_intro_outro = isIntro || isOutro;
-  // console.error("disabled_movement_of_intro_outro: ", disabled_movement_of_intro_outro);
   
   if(disabled_movement_of_intro_outro) {
     disabled = true;
-    // console.error("disabled_movement_of_intro_outro: ", disabled_movement_of_intro_outro);
   }
 
 

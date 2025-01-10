@@ -18,6 +18,8 @@ import { Store } from "@/store/Store";
 
 export const Menu = observer(() => {
   const store = React.useContext(StoreContext);
+  const disableCutandDelete = (store.selectedElement?.name === "Media(video) 1 video http://www.w3.org/1999/xhtml" || store.selectedElement?.name === "Media(video) 5 video http://www.w3.org/1999/xhtml") ;
+  const cursorCutandDelete = disableCutandDelete ? "cursor-not-allowed" : "cursor-pointer";
 
   return (
     <ul className="p-2 text-slate-200 h-full font-semibold">
@@ -54,7 +56,8 @@ export const Menu = observer(() => {
       <hr/>
 
       <li
-        className="flex flex-col items-center p-4 rounded hover:bg-slate-600 cursor-pointer"
+        className={`flex flex-col items-center p-4 rounded hover:bg-slate-600 ${cursorCutandDelete}`}
+        
         >
           <button
             onClick={() => {
@@ -67,7 +70,8 @@ export const Menu = observer(() => {
                 store.cutEditorElement(store.selectedElement, store.currentTimeInMs)
               }
             }}
-            className={`flex flex-col items-center`}
+            className={`flex flex-col items-center ${cursorCutandDelete}`}
+            disabled={disableCutandDelete}
           >
 
             <MdContentCut size="25" className="w-4 h-4 m-2" />
@@ -81,7 +85,7 @@ export const Menu = observer(() => {
         </li>
 
         <li 
-          className="flex flex-col items-center p-4 rounded hover:bg-slate-600 cursor-pointer"
+          className={`flex flex-col items-center p-4 rounded hover:bg-slate-600 ${cursorCutandDelete}`}
           >
           <button
             onClick={() => {
@@ -90,7 +94,8 @@ export const Menu = observer(() => {
                 store.removeEditorElement(store.selectedElement?.id)
               }
             }}
-            className={`flex flex-col items-center`}
+            className={`flex flex-col items-center ${cursorCutandDelete}`}
+            disabled={disableCutandDelete}
           >
             <MdDelete size="25" className="w-4 h-4 m-2" />
             <div
