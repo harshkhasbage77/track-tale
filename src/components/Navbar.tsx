@@ -172,21 +172,21 @@ const Navbar = observer(() => {
             bg-gray-800 
             px-4 shadow text-white">
             <div className="mx-2 w-auto flex justify-between items-center">
-                <div className="flex items-center space-x-4">
-                    <a href="/" className="flex items-center text-slate-400">
-                        <FaAngleLeft className="mb-1"/>
-                        <div className="ml-2">Back to dashboard</div>
+                <div className="flex items-center">
+                    <a href="/" className="flex items-center mx-2 my-0 px-2 py-1 hover:bg-slate-600 rounded">
+                        <FaAngleLeft className=""/>
+                        <div className="ml-2">All Projects</div>
                     </a>
                     <div className="relative dropdown">
-                        <button className="flex text-gray-200" onClick={toggleDropdown} aria-expanded="false">
-                            Saved
+                        <button className="flex text-gray-200 mx-2 my-0 px-2 py-1 hover:bg-slate-600  rounded" onClick={toggleDropdown} aria-expanded="false">
+                            Options
                             <FaSortDown className="ml-2 "/>
                         </button>
-                        <ul className={`absolute min-w-max border-sm rounded bg-gray-800/75 ${dropdownVisible ? "block" : "hidden"} text-white shadow-lg mt-2 py-2`}>
-                            <li><a className="block px-4 py-2 hover:bg-gray-600" href="#" onClick={saveStateToFile}>Save</a></li>
-                            <li><a className="block px-4 py-2 hover:bg-gray-600" href="#">Save As...</a></li>
+                        <ul className={`absolute min-w-max border-sm rounded bg-gray-800/75 ${dropdownVisible ? "block z-10" : "hidden"} text-white shadow-lg mt-2 `}>
+                            <li><a className="block m-1 px-4 py-2 hover:bg-gray-300/75 rounded" href="#" onClick={saveStateToFile}>Save</a></li>
+                            <li><a className="block m-1 px-4 py-2 hover:bg-gray-300/75 rounded" href="#">Save As...</a></li>
                             <li className="border-t my-1"></li>
-                            <li><a className="block px-4 py-2 hover:bg-gray-800" href="#" onClick={() => {
+                            <li><a className="block m-1 px-4 py-2 hover:bg-gray-800/75 rounded" href="#" onClick={() => {
                                 saveStateToFile();
                                 window.location.href = "/";
                             }}>Save & Exit</a></li>
