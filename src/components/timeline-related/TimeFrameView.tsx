@@ -12,7 +12,8 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
   var disabled = false;
   const disabled_something_related_to_audio = false;
   const isSelected = store.selectedElement?.id === element.id;
-  const bgColorOnSelected = isSelected ? "bg-slate-800" : "bg-slate-600";
+  const bgColorOnSelected = isSelected ? "bg-slate-800" : "bg-slate-500";
+  const borderColorOnSelected = isSelected ? "border-2 border-yellow-500 border-solid" : "";
   const timeFrameElementHeight = 60;
   
   
@@ -46,11 +47,9 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
         store.setSelectedElement(element);
       }}
       key={element.id}
-      //  bg-cyan-600 
-      className={`relative width-full h-[60px] my-2  
-        bg-[#2222227D]
+      className={`relative width-full h-[60px] border-b border-indigo-600
          ${
-        isSelected ? "border-2 border-indigo-600 bg-slate-400" : ""
+        isSelected ? "border-0 border-indigo-600 bg-indigo-200" : "bg-indigo-200"
       }`}
       style={{width: `${store.maxTime/1000*10}px`}}
     >
@@ -120,8 +119,10 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
         </div> */}
         <div
           className={`h-full w-full text-white text-xs min-w-[0px] leading-[25px] rounded-lg select-none 
-            border-double border-l-8 border-r-8 border-l-yellow-500 border-r-yellow-500 ${bgColorOnSelected} ${disabledCursor}
-            hover:border-solid hover:border-2 hover:border-yellow-500`}
+            ${borderColorOnSelected}
+            ${bgColorOnSelected}
+            ${disabledCursor}
+            `}
         >
           <p className="truncate">
             <span className="z-10 p-2 bg-slate-300/30 font-bold">

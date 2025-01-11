@@ -14,7 +14,6 @@ const Navbar = observer(() => {
     const store = React.useContext(StoreContext);
     const [projectTitle, setProjectTitle] = useState("Untitled Project");
     const [isEditing, setIsEditing] = useState(false);
-    // const inputRef = useRef(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [dropdownVisible, setDropdownVisible] = useState(false);
 
@@ -28,7 +27,6 @@ const Navbar = observer(() => {
     const handleEditClick = () => {
         setIsEditing(true);
         setTimeout(() => {
-            // console.log("ye hua execute");
             if (inputRef.current) {
                 inputRef.current.focus();
             }
@@ -36,27 +34,15 @@ const Navbar = observer(() => {
     };
 
     const handleSaveClick = () => {
-        console.log("ye hua save");
         setIsEditing(false);
         localStorage.setItem("projectTitle", projectTitle);
-        // console.log("Project Title saved to local storage" + projectTitle);
     };
 
     const handleClickOutside = (event : any) => { // event: MouseEvent
         if(inputRef.current && !inputRef.current.contains(event.target)) {
-            // handleSaveClick();
-            // console.log("ye hua outside click karke save");
             setIsEditing(false);
-            // const storedTitle = localStorage.getItem("projectTitle");
-            // if(storedTitle) {
-            //     setProjectTitle(storedTitle);
-            // }
             localStorage.setItem("projectTitle", projectTitle);
-            // console.log("outside click se Project Title saved to local storage" + projectTitle);
-
             setDropdownVisible(false);
-            console.log(dropdownVisible);
-            console.log("outside click se dropdown band ho gaya");
         }
     };
     
@@ -162,11 +148,8 @@ const Navbar = observer(() => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const state = e.target?.result as string;
-                // store.deserialize(state);
 
                 try {
-                    // const parsedState = JSON.parse(state);
-                    // store.deserialize(parsedState);
                     store.deserialize(state);
                     alert("State successfully loaded from the JSON file.");
                 } catch (error) {
@@ -185,11 +168,10 @@ const Navbar = observer(() => {
 
 
     return (
-        // bg-[#F3F3F3]
         <nav className="
-        bg-gray-800 
-        px-4 shadow text-white">
-            <div className="container mx-auto flex justify-between items-center">
+            bg-gray-800 
+            px-4 shadow text-white">
+            <div className="mx-2 w-auto flex justify-between items-center">
                 <div className="flex items-center space-x-4">
                     <a href="/" className="flex items-center text-slate-400">
                         <FaAngleLeft className="mb-1"/>
@@ -220,50 +202,43 @@ const Navbar = observer(() => {
                 <div className="flex items-center mx-auto">
                     <div className="flex items-center border-b-2 rounded">
                         <input 
-                        ref={inputRef}
-                        id="project-title"
-                        type="text" 
-                        className="form-input py-1 w-64 text-center focus:outline-none focus:bg-slate-600 bg-slate-600 rounded" 
-                        placeholder="Project Title"
-                        value={projectTitle}
-                        disabled={!isEditing}
-                        onChange={(e)=>{
-                            setProjectTitle(e.target.value);
-                            // console.log("1outside click se Project Title saved to local storage" + projectTitle);
-                            // localStorage.setItem("projectTitle", projectTitle);
-                            // console.log("2outside click se Project Title saved to local storage" + projectTitle);
-                        }}
+                            ref={inputRef}
+                            id="project-title"
+                            type="text" 
+                            className="form-input py-1 w-64 text-center focus:outline-none focus:bg-slate-600 bg-slate-600 rounded" 
+                            placeholder="Project Title"
+                            value={projectTitle}
+                            disabled={!isEditing}
+                            onChange={(e)=>{
+                                setProjectTitle(e.target.value);
+                            }}
                         />
                         <button
-                        id="edit-project-title"
-                        className={`btn mx-2 ${isEditing ? "hidden" : ""}`}
-                        type="button"
-                        onClick={handleEditClick}
-                        title="Edit Project Title"
+                            id="edit-project-title"
+                            className={`btn mx-2 ${isEditing ? "hidden" : ""}`}
+                            type="button"
+                            onClick={handleEditClick}
+                            title="Edit Project Title"
                         >
                             <FaPencilAlt />
                         </button>
                         <button
-                        id="save-button"
-                        className={`btn mx-2 ${isEditing ? '' : 'hidden'}`}
-                        type="button"
-                        onClick={handleSaveClick}
-                        title="Save project title"
+                            id="save-button"
+                            className={`btn mx-2 ${isEditing ? '' : 'hidden'}`}
+                            type="button"
+                            onClick={handleSaveClick}
+                            title="Save project title"
                         >
                             <FaCheck />
                         </button>
                     </div>
                 </div>
+                
+                    
+                <input type="file" accept=".json" onChange={loadStateFromFile} className="btn btn-secondary mx-2" />
+                
+                
                 <div className="flex items-center space-x-4">
-                    <button type="button" className="border-0">
-                        <BsPatchQuestion className="text-xl cursor-pointer" title="Get Help"/>
-                    </button>
-                    <button className="btn btn-primary my-2 p-1 flex flex-row items-center justify-center rounded bg-blue-500 text-white font-semibold" type="submit" title="Export Video">
-                        <a href="/export" className="mx-2">
-                            Export
-                        </a>
-                        <PiExportBold className="mr-2 mb-1"/>
-                    </button>
                     <Image 
                         src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                         alt="User Avatar"
@@ -271,14 +246,16 @@ const Navbar = observer(() => {
                         height={24}
                         className="rounded-full h-6 w-6 ring-2 ring-white"
                     />
-                    {/* <img 
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" 
-                        alt="User Avatar" 
-                        className="rounded-full h-6 w-6 ring-2 ring-white" 
-                    /> */}
+                    <button className="btn btn-primary my-2 p-1 flex flex-row items-center justify-center rounded bg-blue-500 text-white font-semibold" type="submit" title="Export Video">
+                        <a href="/export" className="mx-2">
+                            Export
+                        </a>
+                        <PiExportBold className="mr-2 mb-1"/>
+                    </button>
+                    <button type="button" className="border-0">
+                        <BsPatchQuestion className="text-xl cursor-pointer" title="Get Help"/>
+                    </button>
                 </div>
-
-                <input type="file" accept=".json" onChange={loadStateFromFile} className="btn btn-secondary mx-2" />
 
             </div>
         </nav>
