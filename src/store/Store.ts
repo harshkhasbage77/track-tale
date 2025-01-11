@@ -398,6 +398,8 @@ export class Store {
   }
 
   removeEditorElement(id: string) {
+    
+
     this.setEditorElements(this.editorElements.filter(
       (editorElement) => editorElement.id !== id
     ));

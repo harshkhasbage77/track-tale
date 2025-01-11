@@ -1,0 +1,2 @@
+export const untouchableEditorElements = ["Media(video) 1 video http://www.w3.org/1999/xhtml", "Media(video) 5 video http://www.w3.org/1999/xhtml"];
+export const untouchableEditorElementsId = ["Media(video) 1 video http://www.w3.org/1999/xhtml", "Media(video) 5 video http://www.w3.org/1999/xhtml"];

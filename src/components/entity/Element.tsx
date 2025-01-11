@@ -3,7 +3,8 @@ import React from "react";
 import { EditorElement } from "@/types";
 import { StoreContext } from "@/store";
 import { observer } from "mobx-react";
-import { MdOutlineTextFields, MdMovie } from "react-icons/md";
+import { MdOutlineTextFields, MdMovie, MdAudiotrack, MdImage } from "react-icons/md";
+import { untouchableEditorElements } from "@/utils/constants";
 
 export type ElementProps = {
   element: EditorElement;
@@ -12,7 +13,7 @@ export type ElementProps = {
 export const Element = observer((props: ElementProps) => {
   const store = React.useContext(StoreContext);
   const { element } = props;
-  const Icon = element.type === "video" ? MdMovie : MdOutlineTextFields;
+  const Icon = element.type === "video" ? MdMovie : element.type === "text" ? MdOutlineTextFields : element.type === "image" ? MdImage : MdAudiotrack;
   const isSelected = store.selectedElement?.id === element.id;
   const bgColor = isSelected ? "rgba(0, 160, 245, 0.1)" : "";
   return (
@@ -36,7 +37,6 @@ export const Element = observer((props: ElementProps) => {
             className="opacity-0 max-w-[20px] max-h-[20px]"
             src={element.properties.src}
             onLoad={() => {
-              console.log("loaded dekh le bhai");
               store.refreshElements();
             }}
             onLoadedData={() => {
@@ -76,17 +76,25 @@ export const Element = observer((props: ElementProps) => {
           ></audio>
         ) : null}
       </div>
-      <button
-        className="bg-red-500 hover:bg-red-700 text-white mr-2 text-xs py-0 px-1 rounded"
-        onClick={(e) => {
-          store.removeEditorElement(element.id);
-          store.refreshElements();
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-      >
-        X
-      </button>
+      {untouchableEditorElements.includes(element.name)? (
+        <button
+          className="bg-green-500  mr-2 text-xs py-0 px-1 rounded"
+        >
+          FIXED
+        </button>
+      ) : (
+        <button
+          className="bg-red-500 hover:bg-red-700 text-white mr-2 text-xs py-0 px-1 rounded"
+          onClick={(e) => {
+            store.removeEditorElement(element.id);
+            store.refreshElements();
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          X
+        </button>
+      )}
     </div>
   );
 });

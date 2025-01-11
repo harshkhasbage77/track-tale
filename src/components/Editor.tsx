@@ -142,17 +142,14 @@ export const Editor = observer(() => {
 
   return (
     <>
-    <div className="grid grid-rows-[48px_1fr_440px] grid-cols-[92px_300px_1fr_250px] h-full">
+    <div className="grid grid-rows-[48px_1fr_440px] grid-cols-[92px_300px_1fr_250px] h-full gap-0">
 
       <div className="col-span-4 ">
-        {/* <h1 className="text-center text-2xl font-bold">Editor</h1> */}
         <Navbar />
       </div>
       <div className="row-start-2 row-span-2 flex flex-col bg-slate-900">
         <Menu />
       </div>
-      {/* <div className="row-start-2 col-start-2 row-span-2 flex flex-col scroll-1-container "> */}
-      {/* bg-[#D9D9D9] */}
       <div className="row-start-2 col-start-2 row-span-2 flex flex-col 
       bg-white-800 
       ">
@@ -161,10 +158,10 @@ export const Editor = observer(() => {
       <div id="grid-canvas-container" className="col-start-3 row-start-2 bg-slate-100 flex justify-center items-center" onClick={handleCanvasContainerClick}>
         <canvas id="canvas" className="h-[450px] w-[800px] row" />
       </div>
-      <div className="col-start-4 row-start-2 overflow-auto custom-scrollbar">
+      <div className="col-start-4 row-start-2 p-0 m-0 overflow-auto custom-scrollbar w-full h--full">
         <ElementsPanel />
       </div> 
-      <div className="col-start-3 row-start-3 col-span-2 relative bg-blue-200">
+      <div className="col-start-3 row-start-3 col-span-2 relative bg-blue-200 h-full p-0 m-0">
         <TimeLine /> 
       </div>
     </div>

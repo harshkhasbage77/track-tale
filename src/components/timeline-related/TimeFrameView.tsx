@@ -13,9 +13,8 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
   const disabled_something_related_to_audio = false;
   const isSelected = store.selectedElement?.id === element.id;
   const bgColorOnSelected = isSelected ? "bg-slate-800" : "bg-slate-500";
-  const borderColorOnSelected = isSelected ? "border-2 border-yellow-500 border-solid" : "";
+  const borderColorOnSelected = isSelected ? "border-2 border-solid border-yellow-500" : "";
   const timeFrameElementHeight = 60;
-  
   
   const isIntro = element.name === "Media(video) 1 video http://www.w3.org/1999/xhtml";
   const isOutro = element.name === "Media(video) 5 video http://www.w3.org/1999/xhtml";
@@ -119,13 +118,13 @@ export const TimeFrameView = observer((props: { element: EditorElement, duration
         </div> */}
         <div
           className={`h-full w-full text-white text-xs min-w-[0px] leading-[25px] rounded-lg select-none 
-            ${borderColorOnSelected}
+            ${borderColorOnSelected} 
             ${bgColorOnSelected}
             ${disabledCursor}
             `}
         >
           <p className="truncate">
-            <span className="z-10 p-2 bg-slate-300/30 font-bold">
+            <span className="p-2 bg-slate-300/30 font-bold">
               {element.name}
             </span>
           </p>

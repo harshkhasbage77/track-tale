@@ -238,21 +238,21 @@ const Navbar = observer(() => {
                 <input type="file" accept=".json" onChange={loadStateFromFile} className="btn btn-secondary mx-2" />
                 
                 
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center gap-2">
                     <Image 
                         src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                         alt="User Avatar"
                         width={24}
                         height={24}
-                        className="rounded-full h-6 w-6 ring-2 ring-white"
+                        className="rounded-full h-6 w-6 ring-2 ring-white m-2"
                     />
-                    <button className="btn btn-primary my-2 p-1 flex flex-row items-center justify-center rounded bg-blue-500 text-white font-semibold" type="submit" title="Export Video">
-                        <a href="/export" className="mx-2">
+                    <button className="btn btn-primary my-2 p-1 px-2 flex flex-row items-center justify-center space-x-2 rounded bg-blue-500 font-semibold" type="submit" title="Export Video">
+                        <a href="/export" className="">
                             Export
                         </a>
-                        <PiExportBold className="mr-2 mb-1"/>
+                        <PiExportBold className=""/>
                     </button>
-                    <button type="button" className="border-0">
+                    <button type="button" className="p-2  hover:bg-slate-600 rounded">
                         <BsPatchQuestion className="text-xl cursor-pointer" title="Get Help"/>
                     </button>
                 </div>

@@ -15,10 +15,11 @@ import {
   MdDelete,
 } from "react-icons/md";
 import { Store } from "@/store/Store";
+import { untouchableEditorElements } from "@/utils/constants";
 
 export const Menu = observer(() => {
   const store = React.useContext(StoreContext);
-  const disableCutandDelete = (store.selectedElement?.name === "Media(video) 1 video http://www.w3.org/1999/xhtml" || store.selectedElement?.name === "Media(video) 5 video http://www.w3.org/1999/xhtml") ;
+  const disableCutandDelete = (store.selectedElement?.name) ? untouchableEditorElements.includes(store.selectedElement?.name) : false;
   const cursorCutandDelete = disableCutandDelete ? "cursor-not-allowed" : "cursor-pointer";
 
   return (
@@ -153,13 +154,13 @@ const MENU_OPTIONS = [
       store.setSelectedMenuOption("Effect");
     },
   },
-  {
-    name: "Fill",
-    icon: MdOutlineFormatColorFill,
-    action: (store: Store) => {
-      store.setSelectedMenuOption("Fill");
-    },
-  },
+  // {
+  //   name: "Fill",
+  //   icon: MdOutlineFormatColorFill,
+  //   action: (store: Store) => {
+  //     store.setSelectedMenuOption("Fill");
+  //   },
+  // },
   {
     name: "Export",
     icon: MdDownload,
