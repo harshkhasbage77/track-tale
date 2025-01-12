@@ -322,8 +322,8 @@ export class Store {
 
   setSelectedElement(selectedElement: EditorElement | null) {
     this.selectedElement = selectedElement;
-    console.warn(this.canvas)
-    console.warn(selectedElement?.fabricObject)
+    // console.warn(this.canvas)
+    // console.warn(selectedElement?.fabricObject)
     if (this.canvas) {
       if (selectedElement?.fabricObject)
         {
@@ -986,7 +986,7 @@ export class Store {
       const element = store.editorElements[index];
       switch (element.type) {
         case "video": {
-          console.log("elementid", element.properties.elementId);
+          // console.log("elementid", element.properties.elementId);
           if (document.getElementById(element.properties.elementId) == null)
             continue;
           const videoElement = document.getElementById(
@@ -1195,7 +1195,7 @@ export class Store {
       }
       if (element.fabricObject) {
         element.fabricObject.on("selected", function (e) {
-          console.warn("this object is selected now", element.fabricObject);
+          // console.warn("this object is selected now", element.fabricObject);
           store.setSelectedElement(element);
         });
       }
