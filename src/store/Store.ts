@@ -5,8 +5,9 @@ import anime, { get } from 'animejs';
 import { MenuOption, EditorElement, Animation, TimeFrame, VideoEditorElement, AudioEditorElement, Placement, ImageEditorElement, Effect, TextEditorElement } from '../types';
 import { FabricUitls } from '@/utils/fabric-utils';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
-import { toBlobURL } from '@ffmpeg/util';
+import { toBlobURL, fetchFile } from '@ffmpeg/util';
 import { PiWarningDiamondThin } from 'react-icons/pi';
+// import { log } from 'console';
 
 export class Store {
   canvas: fabric.Canvas | null
@@ -327,8 +328,8 @@ export class Store {
       if (selectedElement?.fabricObject)
         {
           this.canvas.setActiveObject(selectedElement.fabricObject);
-          console.warn("this element is set active " + selectedElement.fabricObject)
-          console.error(selectedElement.id)
+          // console.warn("this element is set active " + selectedElement.fabricObject)
+          // console.error(selectedElement.id)
         }
       else
         this.canvas.discardActiveObject();
@@ -368,7 +369,7 @@ export class Store {
     if (timeFrame.end != undefined && timeFrame.end > this.maxTime) {
       timeFrame.end = this.maxTime;
     }
-    console.log("this is old editor element's timeframe: ", editorElement.timeFrame);
+    // console.log("this is old editor element's timeframe: ", editorElement.timeFrame);
     // if(editorElement.id === 1 || editorElement.id === 2){return;}
     const newEditorElement = {
       ...editorElement,
@@ -377,7 +378,7 @@ export class Store {
         ...timeFrame,
       }
     }
-    console.log("this is new editor element's timeframe: ", newEditorElement.timeFrame);
+    // console.log("this is new editor element's timeframe: ", newEditorElement.timeFrame);
     this.updateVideoElements();
     this.updateAudioElements();
     this.updateEditorElement(newEditorElement);
@@ -429,6 +430,126 @@ export class Store {
     this.addEditorElement(newEditorElementSecondHalf);
 
   }
+
+  async detachAudioFromVideo() {
+    if (!this.selectedElement || this.selectedElement.type !== 'video') {
+      console.error('No video element selected');
+      return;
+    }
+
+    const videoElement = document.getElementById(this.selectedElement.properties.elementId) as HTMLVideoElement;
+    if (!isHtmlVideoElement(videoElement)) {
+      console.error('Selected element is not a valid video element');
+      return;
+    }
+
+    const videoSrc = videoElement.src;
+    console.log("video src is ", videoSrc);
+    const ffmpeg = new FFmpeg();
+    const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
+    
+    await ffmpeg.load({
+      coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+      // workerURL: await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript'),
+    });
+    
+    const videoData = await fetchFile(videoSrc);
+    await ffmpeg.writeFile('input.mp4', videoData);
+    await ffmpeg.exec(['-i', 'input.mp4', '-q:a', '0', '-map', 'a', 'output.mp3']);
+    
+    const audioData = await ffmpeg.readFile('output.mp3');
+    const audioBlob = new Blob([audioData], { type: 'audio/mp3' });
+    
+    // Get the video file name and construct the audio file name
+    const videoFileName = videoSrc.split('/').pop()?.split('.').shift() || 'detached_audio';
+    const audioFileName = `${videoFileName}_detached_audio.mp3`;
+
+    // const audioUrl = URL.createObjectURL(audioBlob);
+    // console.log("audio url is ", audioUrl);
+    // this.addAudioResource(audioUrl);
+    // console.log("audioResources is ", this.audios);
+    // this.addAudio(this.audios.length - 1);
+
+    const audioUrl = URL.createObjectURL(audioBlob);
+    console.log("audio url is ", audioUrl);
+    this.addAudioResource(audioUrl);
+    console.log("audioResources is ", this.audios);
+    setTimeout(() => {
+      this.addAudio(this.audios.length - 1);
+    }, 1000);
+    
+    // Send the audio blob to the save-audio API
+    const formData = new FormData();
+    formData.append('audio', new File([audioBlob], audioFileName));
+    
+    try {
+      const response = await fetch('/api/save-audio', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (response.ok) {
+        const { filePath } = await response.json();
+        console.log(`Audio saved successfully at ${filePath}`);
+      } else {
+        console.error('Failed to save audio on the server:', await response.text());
+      }
+    } catch (error) {
+      console.error('Error while saving audio on the server:', error);
+    }
+    
+
+    
+    // console.log("videoFileName is ", videoFileName);
+    // const a = document.createElement('a');
+    // a.href = audioUrl;
+    // a.download = `${videoFileName}_detached_audio.mp3`;
+    // a.click();
+
+  }
+
+  // async detachAudioFromVideo() {
+  //   if (!this.selectedElement || this.selectedElement.type !== 'video') {
+  //     console.error('No video element selected');
+  //     return;
+  //   }
+
+  //   const videoElement = document.getElementById(this.selectedElement.properties.elementId) as HTMLVideoElement;
+  //   if (!isHtmlVideoElement(videoElement)) {
+  //     console.error('Selected element is not a valid video element');
+  //     return;
+  //   }
+
+  //   const videoSrc = videoElement.src;
+
+  //   const id = getUid();
+  //   this.addEditorElement(
+  //     {
+  //       id,
+  //       name: `Media(audio) ${index + 1}`,
+  //       type: "audio",
+  //       placement: {
+  //         x: 0,
+  //         y: 0,
+  //         width: 100,
+  //         height: 100,
+  //         rotation: 0,
+  //         scaleX: 1,
+  //         scaleY: 1,
+  //       },
+  //       timeFrame: {
+  //         start: 0,
+  //         end: audioDurationMs,
+  //       },
+  //       properties: {
+  //         elementId: `audio-${id}`,
+  //         src: audioElement.src,
+  //       }
+  //     },
+  //   );
+
+  // }
 
   setMaxTime(maxTime: number) {
     this.maxTime = maxTime;
@@ -609,6 +730,7 @@ export class Store {
   }
 
   addAudio(index: number) {
+    console.log("New audio is being added, audio index is ", index);
     const audioElement = document.getElementById(`audio-${index}`)
     if (!isHtmlAudioElement(audioElement)) {
       return;

@@ -62,11 +62,6 @@ export const Menu = observer(() => {
         >
           <button
             onClick={() => {
-              console.log("Cut")
-              console.log("store.selectedElement: ", store.selectedElement)
-              console.log("store.selectedElement?.id: ", store.selectedElement?.id)
-              console.log("store.selectedElement?.name: ", store.selectedElement?.name)
-              console.log("current time: ", store.currentTimeInMs)
               if(store.selectedElement){
                 store.cutEditorElement(store.selectedElement, store.currentTimeInMs)
               }
@@ -106,6 +101,37 @@ export const Menu = observer(() => {
               </div>
           </button>
         </li>
+
+        {store.selectedElement?.type === "video" && (
+
+          <li 
+            className={`flex flex-col items-center p-4 rounded hover:bg-slate-600 ${cursorCutandDelete}`}
+            >
+            <button
+              onClick={() => {
+                console.log("Detach Audio")
+                if(store.selectedElement){
+                  // store.removeEditorElement(store.selectedElement?.id)
+                  console.log("calling function from store to detach audio. Selected video element for detaching audio is :");
+                  console.log(store.selectedElement);
+                  store.detachAudioFromVideo();
+                }
+              }}
+              className={`flex flex-col items-center 
+                `}
+              // ${cursorCutandDelete}
+              // disabled={disableCutandDelete}
+              >
+              <MdAudiotrack size="25" className="w-4 h-4 m-2" />
+              <div
+                className={`text-sm hover:text-white text-slate-300`}
+                >
+                  Detach Audio
+                </div>
+            </button>
+          </li>
+        
+        )}
 
     </ul>
   );
