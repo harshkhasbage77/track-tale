@@ -19,7 +19,7 @@ const ANIMATION_TYPE_TO_LABEL: Record<string, string> = {
   fadeOut: "Fade Out",
   slideIn: "Slide In",
   slideOut: "Slide Out",
-  breath: "Breath",
+  breathe: "Breathe",
 };
 export type AnimationResourceProps = {
   animation: Animation;
