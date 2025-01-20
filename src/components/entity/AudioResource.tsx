@@ -3,7 +3,7 @@ import React from "react";
 import { StoreContext } from "@/store";
 import { formatTimeToMinSec } from "@/utils";
 import { observer } from "mobx-react";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdDelete } from "react-icons/md";
 
 export type AudioResourceProps = {
   audio: string;
@@ -21,6 +21,19 @@ export const AudioResource = observer(
         <div className="bg-[rgba(0,0,0,.25)] text-white py-1 absolute text-base top-2 right-2">
           {formatedAudioLength}
         </div>
+        <button
+          // className="hover:bg-[#00a0f5] bg-[rgba(0,0,0,.25)] rounded z-10 text-white font-bold py-1 absolute text-lg bottom-2 right-2"
+          className="hover:bg-[#00a0f5] bg-[rgba(0,0,0,.25)] rounded-full z-10 text-white font-bold p-1 absolute text-lg bottom-2 right-12"
+          onClick={() => {
+            console.log("delete audio");
+            const deleteConfirmation = confirm("Are you sure you want to delete the audio? This may affect your project.");
+            if(deleteConfirmation){
+              store.deleteAudioResource(audio);
+            }
+          }}
+        >
+        <MdDelete size="25" />
+      </button>
         <button
           className="hover:bg-[#00a0f5] bg-[rgba(0,0,0,.25)] rounded z-10 text-white font-bold py-1 absolute text-lg bottom-2 right-2"
           onClick={() => store.addAudio(index)}

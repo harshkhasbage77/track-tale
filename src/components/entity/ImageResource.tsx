@@ -2,7 +2,7 @@
 import React from "react";
 import { StoreContext } from "@/store";
 import { observer } from "mobx-react";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdDelete } from "react-icons/md";
 
 type ImageResourceProps = {
   image: string;
@@ -20,6 +20,18 @@ export const ImageResource = observer(
         <div className="bg-[rgba(0,0,0,.25)] text-white py-1 absolute text-base top-2 right-2">
           {resolution.w} x {resolution.h}
         </div>
+        <button
+            className="hover:bg-[#00a0f5] bg-[rgba(0,0,0,.25)] rounded-full z-10 text-white font-bold p-1 absolute text-lg bottom-2 right-12"
+            onClick={() => {
+              console.log("delete audio");
+              const deleteConfirmation = confirm("Are you sure you want to delete the image? This may affect your project.");
+              if(deleteConfirmation){
+                store.deleteImageResource(image);
+              }
+            }}
+          >
+          <MdDelete size="25" />
+        </button> 
         <button
           className="hover:bg-[#00a0f5] bg-[rgba(0,0,0,.25)] rounded z-10 text-white font-bold py-1 absolute text-lg bottom-2 right-2"
           onClick={() => store.addImage(index)}

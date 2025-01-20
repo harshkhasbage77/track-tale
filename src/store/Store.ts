@@ -123,16 +123,24 @@ export class Store {
 
   addVideoResource(video: string) {
     this.videos = [...this.videos, video];
-    console.log("videos after adding new video resource are: ", this.videos);
+    // console.log("videos after adding new video resource are: ", this.videos);
   }
   deleteVideoResource(video: string) {
     this.videos = this.videos.filter((v) => v !== video);
   }
+  
   addAudioResource(audio: string) {
     this.audios = [...this.audios, audio];
   }
+  deleteAudioResource(audio: string) {
+    this.audios = this.audios.filter((a) => a !== audio);
+  }
+
   addImageResource(image: string) {
     this.images = [...this.images, image];
+  }
+  deleteImageResource(image: string) {
+    this.images = this.images.filter((i) => i !== image);
   }
 
   addAnimation(animation: Animation) {

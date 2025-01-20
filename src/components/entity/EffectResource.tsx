@@ -29,7 +29,7 @@ export const EffectResource = observer((props: EffectResourceProps) => {
       </div>
       {/* Select effect from drop down */}
       <select
-        className="bg-slate-100 text-black rounded-lg px-2 py-1 ml-2 w-16 text-xs"
+        className="bg-slate-100 text-black rounded-lg px-2 py-1 ml-2 w-32 text-xs"
         value={props.editorElement.properties.effect.type}
         onChange={(e) => {
           const type = e.target.value;
