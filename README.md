@@ -4,7 +4,7 @@ The app's live link to test in the browser is: https://track-tales.vercel.app/
 
 ffmpeg to generate videos from Canvas in the backend
 
-## Fabric Video Editor
+## Fabric JS Video Editor
 
 Fabric Video Editor is a video editor that runs in the browser. It is built with fabric.js, Next.js (a React framework), Tailwindcss, Mobx, and typescript.
 
